@@ -1,0 +1,6 @@
+apiVersion: v1
+appVersion: "1.0"
+description: Smoketest Helm chart for Kubernetes
+icon: https://www.bytelion.com/wp-content/uploads/2017/08/software-testing-company-572.png
+name: helm-smoketest
+version: 1.0.3

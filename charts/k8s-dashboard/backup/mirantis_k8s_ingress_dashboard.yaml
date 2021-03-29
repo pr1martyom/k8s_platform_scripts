@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"kubernetes.io/ingress.class":"nginx"},"creationTimestamp":"2020-10-25T06:14:44Z","generation":1,"managedFields":[{"apiVersion":"networking.k8s.io/v1beta1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{},"f:kubernetes.io/ingress.class":{}}},"f:spec":{"f:rules":{},"f:tls":{}}},"manager":"kubectl","operation":"Update","time":"2020-10-25T06:14:44Z"},{"apiVersion":"networking.k8s.io/v1beta1","fieldsType":"FieldsV1","fieldsV1":{"f:status":{"f:loadBalancer":{"f:ingress":{}}}},"manager":"nginx-ingress-controller","operation":"Update","time":"2020-10-25T06:15:09Z"}],"name":"k8s-dashboard","namespace":"kube-system","resourceVersion":"3036666","selfLink":"/apis/extensions/v1beta1/namespaces/default/ingresses/k8stest-nginx-default","uid":"d163ce01-b231-46bc-8bd2-53b337cfa656"},"spec":{"rules":[{"host":"k8s.srv.westpac.com.au","http":{"paths":[{"backend":{"serviceName":"kubernetes-dashboard","servicePort":80},"path":"/","pathType":"ImplementationSpecific"}]}}],"tls":[{"hosts":["k8s-dev.srv.westpac.com.au"],"secretName":"tlssecret"}]},"status":{"loadBalancer":{"ingress":[{"ip":"10.100.112.121"},{"ip":"10.104.112.112"},{"ip":"10.104.112.120"}]}}}
+    kubernetes.io/ingress.class: nginx
+  creationTimestamp: "2020-10-26T11:46:17Z"
+  generation: 1
+  managedFields:
+  - apiVersion: extensions/v1beta1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+          f:kubernetes.io/ingress.class: {}
+      f:spec:
+        f:rules: {}
+        f:tls: {}
+    manager: kubectl
+    operation: Update
+    time: "2020-10-26T11:46:17Z"
+  - apiVersion: networking.k8s.io/v1beta1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:loadBalancer:
+          f:ingress: {}
+    manager: nginx-ingress-controller
+    operation: Update
+    time: "2020-12-07T08:14:43Z"
+  name: k8s-dashboard
+  namespace: kube-system
+  resourceVersion: "17203782"
+  selfLink: /apis/extensions/v1beta1/namespaces/kube-system/ingresses/k8s-dashboard
+  uid: 6a239bc0-11fb-45aa-8a4e-0f46f3a8faa0
+spec:
+  rules:
+  - host: k8s.srv.westpac.com.au
+    http:
+      paths:
+      - backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 80
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - k8s-dev.srv.westpac.com.au
+    secretName: tlssecret
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.100.112.121
+    - ip: 10.104.112.112
+    - ip: 10.104.112.120
+    - ip: 10.104.112.198

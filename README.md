@@ -16,7 +16,7 @@ This project contains a Vagrantfile,Ansible and helm charts to bootstrap a multi
 
 ## Quick Start
 
-To deploy the cluster you can use :
+Deploy a Kubernetes Cluster:
 
 ## Supported Linux Distributions
 

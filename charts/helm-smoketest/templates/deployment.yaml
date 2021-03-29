@@ -25,6 +25,16 @@ spec:
           env:
             - name: KUBERNETES_VERSION
               value: {{ .Values.kubernetes.version }}
+            - name: NGINX_INGRESS_VERSION
+              value: {{ .Values.kubernetes.nginxingressVersion }}
+            - name: ETCD_VERSION
+              value: {{ .Values.kubernetes.etcdVersion }}
+            - name: CALICO_VERSION
+              value: {{ .Values.kubernetes.calicoVersion }}
+            - name: DOCKER_VERSION
+              value: {{ .Values.kubernetes.dockerVersion }}
+            - name: HELM_VERSION
+              value: {{ .Values.kubernetes.helmVersion }}
           ports:
             - name: http
               containerPort: 8080

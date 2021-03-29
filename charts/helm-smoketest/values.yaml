@@ -23,6 +23,11 @@ ingressClass:
 
 kubernetes:
   version: 1.19.7
+  nginxingressVersion:
+  etcdVersion:
+  calicoVersion:
+  dockerVersion:
+  helmVersion:
 
 
 ingress:

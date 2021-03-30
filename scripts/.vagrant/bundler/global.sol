@@ -1,0 +1,1 @@
+{"dependencies":[["metaid",["> 0.0.0"]],["trigger",["= 0.0.1"]],["vagrant-disksize",["= 0.1.3"]],["vagrant-host-shell",["= 0.0.4"]],["vagrant-hostmanager",["= 1.8.9"]],["vagrant-hostsupdater",["= 1.2.1"]]],"checksum":"b9d70a057d05fe12356b1494d82e9616e98760e60d2837ed22783b60e14ff534","vagrant_version":"2.2.14"}

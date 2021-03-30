@@ -105,8 +105,8 @@ SCRIPT
 Vagrant.configure("2") do |config|
     config.vagrant.plugins = "vagrant-host-shell"
     config.vagrant.plugins = "trigger"
-    config.vagrant.plugins = "vagrant-vbguest"
     servers.each do |opts|
+        config.vagrant.plugins = "vagrant-vbguest"
         config.vm.define opts[:name] do |config|
         config.vm.synced_folder '.', '/vagrant', disabled: true
         config.vm.synced_folder '/shared-data', '/shared-data'

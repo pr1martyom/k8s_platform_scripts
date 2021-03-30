@@ -57,7 +57,7 @@ echo $VM_STATUS
   while true; do
       read -p "Do you wish to destroy the VMs?(y/n)" yn
       case $yn in
-          [Yy]* ) vagrant destroy --force; break;;
+          [Yy]* ) cd $WORKING_DIR/scripts; vagrant destroy --force; break;;
           [Nn]* ) exit;;
           * ) echo "Please answer yes or no.";;
       esac

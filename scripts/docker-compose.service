@@ -1,0 +1,14 @@
+[Unit]
+Description=My Server container
+Requires=docker.service
+After=network.target docker.service
+
+[Service]
+#Restart=always
+Type=simple
+WorkingDirectory=/home/qzhub
+ExecStart=/bin/docker-compose -f /home/qzhub/runner/k8s_platform_scripts/scripts/docker-compose.yaml up
+ExecStop=/bin/docker-compose -f /home/qzhub/runner/k8s_platform_scripts/scripts/docker-compose.yaml down
+
+[Install]
+WantedBy=multi-user.target

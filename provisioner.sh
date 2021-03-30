@@ -21,15 +21,10 @@ fi
 
 function clone {
 if [ -d "$2" ]; then 
-  cd $2
-  git add --all
-  git commit -m "Current vagrant state `date`"
-  git push 
-  cd
-fi
   rm -Rf $2
   mkdir -p $2
   $GIT clone -q $1 $2 -b $3
+fi
 }
 
 echo "cloning repository into ... $WORKING_DIR"
@@ -65,4 +60,6 @@ echo $VM_STATUS
 # fi
 vagrant plugin install vagrant-vbguest
 echo "Provisioning Kubernetes VMs"
+vagrant plugin uninstall vagrant-vbguest
+vagrant plugin install vagrant-vbguest --plugin-version 0.21
 vagrant up

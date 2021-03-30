@@ -20,9 +20,10 @@ if [ "x$GIT" = "x" ];then
 fi
 
 function clone {
-if [ -d "$2" ]; then 
-  rm -Rf $2
-  mkdir -p $2
+if [ -d "$2" ]; then
+  cd "$2"
+  $GIT pull
+else
   $GIT clone -q $1 $2 -b $3
 fi
 }
@@ -32,9 +33,6 @@ clone $REPOSITORY $WORKING_DIR $BRANCH
 
 cd $WORKING_DIR/scripts
 VM_STATUS=$(vagrant status --machine-readable | grep ",state," | egrep -o '([a-z_]*)$')
-
-echo "Current Running machine status"
-echo $VM_STATUS
 
 # case "${VM_STATUS}" in
 #   running)
@@ -58,7 +56,6 @@ echo $VM_STATUS
       esac
   done
 # fi
-vagrant plugin install vagrant-vbguest
 echo "Provisioning Kubernetes VMs"
 vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21

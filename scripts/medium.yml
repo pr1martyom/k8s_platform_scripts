@@ -7,3 +7,11 @@
     eth1: "192.168.0.3"
     mem: "4096"
     cpu: "2"
+- box:
+    name: "kube-master-02"
+    type: "master"
+    img: "boeboe/centos7-50gb"
+    version: "1.0.1"
+    eth1: "192.168.0.4"
+    mem: "4096"
+    cpu: "2"

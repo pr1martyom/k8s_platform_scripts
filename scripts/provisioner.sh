@@ -14,10 +14,41 @@ GIT=`which git`
 
 STATUS=false
 
+SIZE=""
+
+
+Help()
+{
+   # Display Help
+   echo "Vagrant VM Provisioner"
+   echo
+   echo "Syntax: provisioner.sh [1|2|3]"
+   echo "options:"
+   echo "1     Small."
+   echo "2     Medium."
+   echo "3     Large"
+   echo
+}
+
+
+validate()
+{
 if [ "x$GIT" = "x" ];then
   echo "No git command found. install it"
   exit 1;
 fi
+case "$1" in
+  1)
+    SIZE="small.yml"
+  ;;
+  2)
+    SIZE="medium.yml"
+  ;;
+  3)
+    SIZE="large.yml"
+  ;;
+esac
+}
 
 function clone {
 if [ -d "$2" ]; then
@@ -27,7 +58,6 @@ else
   $GIT clone -q $1 $2 -b $3
 fi
 }
-
 
 function configureHost{
 sudo yum install python3-pip -y 
@@ -43,29 +73,21 @@ pip3 install -r requirements.txt && pip list
 }
 
 function checkssh{
-
-
-  
+  if [ python sshconnect.py != 0 ]; then
+   echo "Unable to ssh to one or many nodes. Please check!!" 
+  exit 1; 
 }
 
+function provisionVM{
+echo "Run environment validation.."  
+validate
 
 echo "cloning repository into ... $WORKING_DIR"
 clone $REPOSITORY $WORKING_DIR $BRANCH
 
+
 cd $WORKING_DIR/scripts
 VM_STATUS=$(vagrant status --machine-readable | grep ",state," | egrep -o '([a-z_]*)$')
-
-# case "${VM_STATUS}" in
-#   running)
-#     STATUS=true
-#   ;;
-#   poweroff)
-#      STATUS=true
-#   ;;
-#   *)
-#      STATUS=false
-#   ;;
-# esac
 
 # if [ "$STATUS" = "true" ];then
   while true; do
@@ -82,7 +104,18 @@ cd $WORKING_DIR/scripts
 vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21
 vagrant up
-
+checkssh
 configureHost
+}
 
 
+while getopts ":1:2:3" option; do
+   case $option in
+      123) # provision small VM
+         provisionVM
+         exit;;
+     \?) # incorrect option
+         Help
+         exit;;
+   esac
+done

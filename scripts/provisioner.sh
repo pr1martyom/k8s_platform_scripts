@@ -17,12 +17,13 @@ STATUS=false
 SIZE=""
 
 
-Help()
+usage()
 {
    # Display Help
    echo "Vagrant VM Provisioner"
    echo
-   echo "Syntax: ./provisioner.sh [S|M|L]"
+   echo "Syntax: ./provisioner.sh -[S|M|L]"
+   echo "Example: ./provisioner.sh -S"
    echo "options:"
    echo "S     (S)mall."
    echo "M     (M)edium."
@@ -97,6 +98,11 @@ checkssh
 configureHost
 }
 
+if [[ ! $@ =~ ^\-.+ ]]
+then
+  usage
+fi
+
 while getopts ":SML" option; do
    case $option in
       S ) # provision small VM
@@ -111,8 +117,8 @@ while getopts ":SML" option; do
         SIZE="large.yml"
          provisionVM 
          exit;;
-     * ) # incorrect option
-         Help
-         exit;;
+      \? ) echo "Invalid option -${option}" >&2
+          usage && exit 1
+      ;;
    esac
 done

@@ -30,14 +30,7 @@ usage()
    echo "L     (L)arge"
    echo
 }
-#Validate Env
-validate()
-{
-if [ "x$GIT" = "x" ];then
-  echo "No git command found. install it"
-  exit 1;
-fi
-}
+
 #Git clone function
 function clone {
 if [ -d "$2" ]; then
@@ -81,16 +74,11 @@ result=python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"
 
 
 function provisionVM {
-echo "Run environment validation.."  
-validate
 
 echo "cloning repository into ... $WORKING_DIR"
 clone $REPOSITORY $WORKING_DIR $BRANCH
 
-# cd $WORKING_DIR/scripts
-# VM_STATUS=$(vagrant status --machine-readable | grep ",state," | egrep -o '([a-z_]*)$')
-
-cd $WORKING_DIR/scripts; vagrant destroy --force;
+cd $WORKING_DIR; vagrant destroy --force;
 
 # fi
 echo "Provisioning Kubernetes VMs"
@@ -98,7 +86,7 @@ cd $WORKING_DIR
 vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21
 export SIZE="$SIZE"
-vagrant up
+cd $WORKING_DIR; vagrant up
 checkssh
 configureHost
 }

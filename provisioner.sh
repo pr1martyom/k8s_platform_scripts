@@ -49,7 +49,7 @@ fi
 }
 #Configure Host Machine
 function configureHost {
-sudo yum install python3-pip -y 
+#sudo yum install python3-pip -y 
 pip3 install virtualenv --user
 pip3 install pyyaml
 mkdir -p /home/qzhub/.venv/kubespray 

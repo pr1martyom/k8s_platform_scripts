@@ -28,6 +28,27 @@ else
 fi
 }
 
+
+function configureHost{
+sudo yum install python3-pip -y 
+pip3 install virtualenv --user
+pip3 install pyyaml
+mkdir -p /home/qzhub/.venv/kubespray 
+/home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages 
+/home/qzhub/.venv/kubespray
+source /home/qzhub/.venv/kubespray/bin/activate
+pip install --upgrade pip
+cd /home/qzhub/assets/kubespray
+pip3 install -r requirements.txt && pip list
+}
+
+function checkssh{
+
+
+  
+}
+
+
 echo "cloning repository into ... $WORKING_DIR"
 clone $REPOSITORY $WORKING_DIR $BRANCH
 
@@ -61,3 +82,7 @@ cd $WORKING_DIR/scripts
 vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21
 vagrant up
+
+configureHost
+
+

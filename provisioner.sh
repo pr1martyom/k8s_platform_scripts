@@ -57,6 +57,7 @@ VM_STATUS=$(vagrant status --machine-readable | grep ",state," | egrep -o '([a-z
   done
 # fi
 echo "Provisioning Kubernetes VMs"
+cd $WORKING_DIR/scripts
 vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21
 vagrant up

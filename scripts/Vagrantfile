@@ -1,15 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-
-# vagrant plugin install vagrant-disksize
-# vagrant plugin update
-# vagrant plugin expunge --reinstall
-# vagrant plugin install vagrant-hostmanager
-# vagrant plugin install vagrant-hostsupdater
-# vagrant plugin install vagrant-host-shell
-
-
 servers = [
     {
         :name => "kube-master-01",
@@ -103,8 +94,8 @@ SCRIPT
 #  Inline script applies to master nodes only
 
 Vagrant.configure("2") do |config|
-    config.vagrant.plugins = "vagrant-host-shell"
-    config.vagrant.plugins = "trigger"
+#    config.vagrant.plugins = "vagrant-host-shell"
+#    config.vagrant.plugins = "trigger"
     servers.each do |opts|
         config.vm.define opts[:name] do |config|
         config.vm.synced_folder '.', '/vagrant', disabled: true

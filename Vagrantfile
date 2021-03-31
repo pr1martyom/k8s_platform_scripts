@@ -15,8 +15,6 @@ machines = YAML.load_file(File.join(File.dirname(__FILE__), ENV['SIZE']))
 # # Inline script applies to all nodes
 
 $configureBox = <<-SCRIPT
-    # yum ypdate
-    yum update -y
     # install python-netaddr
     yum install python-netaddr -y
     setenforce 0
@@ -33,7 +31,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 # #    config.vagrant.plugins = "trigger"
 #     # Always use Vagrant's default insecure key
 #     config.ssh.insert_key = false
-
     machines.each do |machine|
         config.vm.define machine['box']['name'] do |srv|
             srv.vm.synced_folder '.', '/vagrant', disabled: true
@@ -51,7 +48,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 v.customize ["modifyvm", :id, "--cpus", machine['box']['cpu']]
             end
            
-            # public_key = File.read("scripts/id_rsa.pub")
+            public_key = File.read("scripts/id_rsa.pub")
 
             srv.vm.provision "shell", inline: <<-SCRIPT
                 mkdir -p /home/vagrant/.ssh
@@ -59,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 touch /home/vagrant/.ssh/id_rsa
                 chmod 600 /home/vagrant/.ssh/id_rsa
                 echo 'Copying ansible-vm public SSH Keys to the VM'
-                cat $PWD/scripts/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+                cat $PWD/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
                 chmod -R 600 /home/vagrant/.ssh/authorized_keys
                 echo 'Host 192.168.*.*' >> /home/vagrant/.ssh/config
                 echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config

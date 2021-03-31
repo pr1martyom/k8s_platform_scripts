@@ -27,7 +27,7 @@ SCRIPT
 # #  Inline script applies to master nodes only
 # # Create and configure the VMs
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-# #    config.vagrant.plugins = "vagrant-host-shell"
+   config.vagrant.plugins = "vagrant-host-shell"
 # #    config.vagrant.plugins = "trigger"
 #     # Always use Vagrant's default insecure key
 #     config.ssh.insert_key = false
@@ -48,7 +48,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 v.customize ["modifyvm", :id, "--cpus", machine['box']['cpu']]
             end
            
-            public_key = File.read("./id_rsa.pub")
+            public_key = File.read("id_rsa.pub")
 
             srv.vm.provision "shell", inline: <<-SCRIPT
                 mkdir -p /home/vagrant/.ssh

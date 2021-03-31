@@ -29,7 +29,7 @@ Help()
    echo "3     Large"
    echo
 }
-
+#Validate Env
 validate()
 {
 if [ "x$GIT" = "x" ];then
@@ -48,7 +48,7 @@ case "$1" in
   ;;
 esac
 }
-
+#Git clone function
 function clone {
 if [ -d "$2" ]; then
   cd "$2"
@@ -57,7 +57,7 @@ else
   $GIT clone -q $1 $2 -b $3
 fi
 }
-
+#Configure Host Machine
 function configureHost {
 sudo yum install python3-pip -y 
 pip3 install virtualenv --user
@@ -70,7 +70,7 @@ pip install --upgrade pip
 cd /home/qzhub/assets/kubespray
 pip3 install -r requirements.txt && pip list
 }
-
+#Check ssh connectivity
 function checkssh {
   if [ python sshconnect.py != 0 ]; then
    echo "Unable to ssh to one or many nodes. Please check!!" 

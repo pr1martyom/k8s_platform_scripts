@@ -1,4 +1,4 @@
-# Deploy a Production Ready Kubernetes Cluster Using Vagrant file
+# Deploy a Production Ready Kubernetes Cluster Using Vagrant Orchestration
 
 ![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes-sigs/kubespray/master/docs/img/kubernetes-logo.png)
 

@@ -15,4 +15,4 @@ def ssh_check():
         return(result)
    return result
 
-ssh_check()
+print ssh_check()

@@ -92,6 +92,7 @@ echo "Provisioning Kubernetes VMs"
 cd $WORKING_DIR
 vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21
+export SIZE="$SIZE"
 vagrant up
 checkssh
 configureHost

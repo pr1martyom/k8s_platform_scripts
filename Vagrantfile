@@ -34,8 +34,8 @@ end
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    config.vagrant.plugins = "vagrant-host-shell"
 # #    config.vagrant.plugins = "trigger"
-     # Always use Vagrant's default insecure key
-    config.ssh.insert_key = false
+    #Always use Vagrant's default insecure key
+    config.ssh.insert_key = true
     machines.each do |machine|
         config.vm.define machine['box']['name'] do |srv|
             srv.vm.synced_folder '.', '/vagrant', disabled: true
@@ -53,13 +53,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 v.customize ["modifyvm", :id, "--cpus", machine['box']['cpu']]
             end
            
-            public_key = File.read("/home/qzhub/workspace/k8s_platform_scripts/id_rsa.pub")
+#            public_key = File.read("/home/qzhub/workspace/k8s_platform_scripts/id_rsa.pub")
+             public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCy1XbdsRWwX/kDcK6rhKrD9GQWIP03r+TdfdoqfLXtHIMVHGI8BtUN9zdPAeq3X6vkqhcAlVyWmUwPZgT9kwbQwT+dt360D/gb0whE7Atw1ekn1nWHpe7zIjVTs8WhISyx6rVg+i9lJ90BeIzEPAcwRnM4TIH1TwZVhNjHGgPj3SnTAa0IRhbOivm+/lCU+7nJmxBPwNQHEcg63M8YSEM1S66rEW2iVCY1PNi9vpO/RsQbLihG8nl/3qacsQFSfpA745nN5g4rsCiPKim2imWtoNDJOByYTP9d6lk+zHzMtjBk0rdHu3/zsj8t4pZpYNOdzu9+K+IHj04DZVi2uGO7 qzhub@qzhub-dev-01"
 
             srv.vm.provision "shell", inline: <<-SCRIPT
                 mkdir -p /home/vagrant/.ssh
                 chmod 700 /home/vagrant/.ssh
                 touch /home/vagrant/.ssh/id_rsa
                 chmod 600 /home/vagrant/.ssh/id_rsa
+                rm /home/vagrant/.ssh/authorized_keys
                 echo 'Copying ansible-vm public SSH Keys to the VM'
                 echo #{public_key} >> /home/vagrant/.ssh/authorized_keys
                 chmod -R 600 /home/vagrant/.ssh/authorized_keys

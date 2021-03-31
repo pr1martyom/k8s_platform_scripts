@@ -22,11 +22,11 @@ Help()
    # Display Help
    echo "Vagrant VM Provisioner"
    echo
-   echo "Syntax: provisioner.sh [1|2|3]"
+   echo "Syntax: ./provisioner.sh [S|M|L]"
    echo "options:"
-   echo "1     Small."
-   echo "2     Medium."
-   echo "3     Large"
+   echo "S     (S)mall."
+   echo "M     (M)edium."
+   echo "L     (L)arge"
    echo
 }
 #Validate Env
@@ -36,17 +36,6 @@ if [ "x$GIT" = "x" ];then
   echo "No git command found. install it"
   exit 1;
 fi
-case "$1" in
-  1)
-    SIZE="small.yml"
-  ;;
-  2)
-    SIZE="medium.yml"
-  ;;
-  3)
-    SIZE="large.yml"
-  ;;
-esac
 }
 #Git clone function
 function clone {
@@ -75,6 +64,7 @@ function checkssh {
   if [ python sshconnect.py != 0 ]; then
    echo "Unable to ssh to one or many nodes. Please check!!" 
   exit 1; 
+  fi
 }
 
 function provisionVM {
@@ -107,13 +97,21 @@ checkssh
 configureHost
 }
 
-
-while getopts ":1:2:3" option; do
+while getopts ":SML" option; do
    case $option in
-      123) # provision small VM
-         provisionVM
+      S ) # provision small VM
+        SIZE="small.yml"
+         provisionVM 
          exit;;
-     \?) # incorrect option
+      M ) # provision small VM
+        SIZE="medium.yml"
+         provisionVM 
+         exit;;
+      L ) # provision small VM
+        SIZE="large.yml"
+         provisionVM 
+         exit;;
+     \? ) # incorrect option
          Help
          exit;;
    esac

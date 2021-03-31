@@ -1,4 +1,3 @@
-
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -51,7 +50,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 v.customize ["modifyvm", :id, "--memory", machine['box']['mem']]
                 v.customize ["modifyvm", :id, "--cpus", machine['box']['cpu']]
             end
-            public_key = File.read("id_rsa.pub")
+            public_key = File.read("scripts/id_rsa.pub")
 
             srv.vm.provision "shell", inline: <<-SCRIPT
                 mkdir -p /home/vagrant/.ssh

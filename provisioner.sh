@@ -75,9 +75,8 @@ validate
 echo "cloning repository into ... $WORKING_DIR"
 clone $REPOSITORY $WORKING_DIR $BRANCH
 
-
-cd $WORKING_DIR/scripts
-VM_STATUS=$(vagrant status --machine-readable | grep ",state," | egrep -o '([a-z_]*)$')
+# cd $WORKING_DIR/scripts
+# VM_STATUS=$(vagrant status --machine-readable | grep ",state," | egrep -o '([a-z_]*)$')
 
 # if [ "$STATUS" = "true" ];then
   while true; do
@@ -90,10 +89,10 @@ VM_STATUS=$(vagrant status --machine-readable | grep ",state," | egrep -o '([a-z
   done
 # fi
 echo "Provisioning Kubernetes VMs"
-cd $WORKING_DIR/scripts
+cd $WORKING_DIR
 vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21
-vagrant up
+"SIZE=$SIZE" vagrant up
 checkssh
 configureHost
 }
@@ -106,15 +105,15 @@ fi
 while getopts ":SML" option; do
    case $option in
       S ) # provision small VM
-        SIZE="small.yml"
+        SIZE="/scripts/small.yml"
          provisionVM 
          exit;;
       M ) # provision small VM
-        SIZE="medium.yml"
+        SIZE="/scripts/medium.yml"
          provisionVM 
          exit;;
       L ) # provision small VM
-        SIZE="large.yml"
+        SIZE="/scripts/large.yml"
          provisionVM 
          exit;;
       \? ) echo "Invalid option -${option}" >&2

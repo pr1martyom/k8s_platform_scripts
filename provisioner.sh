@@ -90,15 +90,8 @@ clone $REPOSITORY $WORKING_DIR $BRANCH
 # cd $WORKING_DIR/scripts
 # VM_STATUS=$(vagrant status --machine-readable | grep ",state," | egrep -o '([a-z_]*)$')
 
-# if [ "$STATUS" = "true" ];then
-  while true; do
-      read -p "Do you wish to destroy the VMs?(y/n)" yn
-      case $yn in
-          [Yy]* ) cd $WORKING_DIR/scripts; vagrant destroy --force; break;;
-          [Nn]* ) exit;;
-          * ) echo "Please answer yes or no.";;
-      esac
-  done
+cd $WORKING_DIR/scripts; vagrant destroy --force;
+
 # fi
 echo "Provisioning Kubernetes VMs"
 cd $WORKING_DIR

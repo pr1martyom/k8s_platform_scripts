@@ -24,6 +24,11 @@ $configureBox = <<-SCRIPT
     yum install nc -y
 SCRIPT
 
+unless Vagrant.has_plugin?("vagrant-host-shell")
+	system('vagrant plugin install vagrant-host-shell')
+	raise("Plugin installed. Run command again.");
+end
+
 # #  Inline script applies to master nodes only
 # # Create and configure the VMs
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -48,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 v.customize ["modifyvm", :id, "--cpus", machine['box']['cpu']]
             end
            
-            public_key = File.read("id_rsa.pub")
+            public_key = File.read("/home/qzhub/workspace/k8s_platform_scripts/id_rsa.pub")
 
             srv.vm.provision "shell", inline: <<-SCRIPT
                 mkdir -p /home/vagrant/.ssh
@@ -62,6 +67,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config
                 echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
                 chmod -R 600 /home/vagrant/.ssh/config
+                chown -R vagrant:vagrant /home/vagrant/.ssh/config
                 SCRIPT
             srv.vm.provision "shell", inline: $configureBox
         end

@@ -5,13 +5,14 @@
 # Specify minimum Vagrant version and Vagrant API version
 Vagrant.require_version '>= 1.6.0'
 VAGRANTFILE_API_VERSION = '2'
+SIZE = 'small.yml'
 
 # Require 'yaml' module
 require 'yaml'
 
 # Read YAML file with VM details (box, CPU, RAM, IP addresses)
 # Edit machines.yml to change VM configuration details
-machines = YAML.load_file(File.join(File.dirname(__FILE__), 'machines.yml'))
+machines = YAML.load_file(File.join(File.dirname(__FILE__), SIZE))
 
 # # Inline script applies to all nodes
 

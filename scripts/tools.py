@@ -11,8 +11,7 @@ def ssh_check():
    yaml_file = yaml.safe_load(f)
    for svr in yaml_file:
      result = os.system("ssh -q vagrant@"+svr['box']['name']+ " exit" )
-     if result!=0:
-        return(result)
-   return result
+     return(result)
+   return (0) 
 
 print ssh_check()

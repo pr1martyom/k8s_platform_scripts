@@ -53,16 +53,8 @@ pip install --upgrade pip
 cd /home/qzhub/assets/kubespray
 pip3 install -r requirements.txt && pip list
 }
-#Check ssh connectivity
-function checkssh {
-  if [ python tools.py "${WORKING_DIR}${SIZE}" != 0 ]; then
-   echo "Unable to ssh to one or many nodes. Please check!!" 
-  exit 1; 
-  fi
-}
 
 function checkssh {
-
 result=python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"
 
   if  [ "$result" != "0" ]; then
@@ -70,7 +62,6 @@ result=python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"
    exit 1; 
   fi
 }
-
 
 
 function provisionVM {

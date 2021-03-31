@@ -61,8 +61,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 touch /home/vagrant/.ssh/id_rsa
                 chmod 600 /home/vagrant/.ssh/id_rsa
                 echo 'Copying ansible-vm public SSH Keys to the VM'
-                echo "Local Public Key  #{public_key}"
-                echo #{public_key} > /home/vagrant/.ssh/authorized_keys
+                echo "Local Public Key #{public_key}"
+                echo #{public_key} >> /home/vagrant/.ssh/authorized_keys
                 chmod -R 600 /home/vagrant/.ssh/authorized_keys
                 echo 'Host 192.168.*.*' >> /home/vagrant/.ssh/config
                 echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config

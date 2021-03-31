@@ -30,7 +30,6 @@ Help()
    echo
 }
 
-
 validate()
 {
 if [ "x$GIT" = "x" ];then
@@ -59,7 +58,7 @@ else
 fi
 }
 
-function configureHost{
+function configureHost {
 sudo yum install python3-pip -y 
 pip3 install virtualenv --user
 pip3 install pyyaml
@@ -72,13 +71,13 @@ cd /home/qzhub/assets/kubespray
 pip3 install -r requirements.txt && pip list
 }
 
-function checkssh{
+function checkssh {
   if [ python sshconnect.py != 0 ]; then
    echo "Unable to ssh to one or many nodes. Please check!!" 
   exit 1; 
 }
 
-function provisionVM{
+function provisionVM {
 echo "Run environment validation.."  
 validate
 

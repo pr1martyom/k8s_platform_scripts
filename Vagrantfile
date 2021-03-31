@@ -10,7 +10,7 @@ require 'yaml'
 
 # Read YAML file with VM details (box, CPU, RAM, IP addresses)
 # Edit machines.yml to change VM configuration details
-machines = YAML.load_file(File.join(File.dirname(__FILE__), [:SIZE]))
+machines = YAML.load_file(File.join(File.dirname(__FILE__), ENV['SIZE']))
 
 # # Inline script applies to all nodes
 

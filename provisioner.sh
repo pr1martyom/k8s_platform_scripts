@@ -68,6 +68,18 @@ function checkssh {
   fi
 }
 
+function checkssh {
+
+result=python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"
+
+  if  [ "$result" != "0" ]; then
+   echo "Unable to ssh to one or many nodes. Please check!!" 
+   exit 1; 
+  fi
+}
+
+
+
 function provisionVM {
 echo "Run environment validation.."  
 validate

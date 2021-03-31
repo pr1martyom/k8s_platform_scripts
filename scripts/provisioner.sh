@@ -111,7 +111,7 @@ while getopts ":SML" option; do
         SIZE="large.yml"
          provisionVM 
          exit;;
-     \? ) # incorrect option
+     * ) # incorrect option
          Help
          exit;;
    esac

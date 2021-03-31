@@ -62,7 +62,7 @@ pip3 install -r requirements.txt && pip list
 }
 #Check ssh connectivity
 function checkssh {
-  if [ python sshconnect.py != 0 ]; then
+  if [ python sshconnect.py "${WORKING_DIR}${SIZE}" != 0 ]; then
    echo "Unable to ssh to one or many nodes. Please check!!" 
   exit 1; 
   fi

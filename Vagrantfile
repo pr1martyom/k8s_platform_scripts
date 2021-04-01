@@ -50,33 +50,6 @@ servers = [
         :eth1 => "192.168.0.7",
         :mem => "8192",
         :cpu => "4"
-    },
-    {
-        :name => "kube-node-03",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.8",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-04",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.9",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-05",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.10",
-        :mem => "8192",
-        :cpu => "4"
     }
 ]
 
@@ -121,11 +94,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             config.vm.network "public_network", bridge: "k8s-bridge", ip: server[:eth1]
             config.ssh.forward_agent = true
 
-            config.vm.provider "virtualbox" do |v|
-                v.name = server[:name]
-                v.customize ["modifyvm", :id, "--groups", "/k8s lab"]
-                v.customize ["modifyvm", :id, "--memory", server[:mem]]
-                v.customize ["modifyvm", :id, "--cpus", server[:cpu]]
+            config.vm.provider "virtualbox" do |config|
+                config.name = server[:name]
+                config.customize ["modifyvm", :id, "--groups", "/k8s lab"]
+                config.customize ["modifyvm", :id, "--memory", server[:mem]]
+                config.customize ["modifyvm", :id, "--cpus", server[:cpu]]
             end
            
              public_key = File.read("./id_rsa.pub")

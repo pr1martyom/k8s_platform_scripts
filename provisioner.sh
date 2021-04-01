@@ -55,8 +55,6 @@ pip3 install -r requirements.txt && pip list
 
 function checkssh {
 
-#!/bin/bash
-
 servers=$(grep -A1 'box:' $SIZE  | grep name|awk -F: '{print $2}'|sed -e 's/"//g');echo $servers
 
 

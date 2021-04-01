@@ -23,51 +23,6 @@ servers = [
         :eth1 => "192.168.0.4",
         :mem => "4096",
         :cpu => "2"
-    },
-    {
-        :name => "kube-master-03",
-        :type => "master",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",        
-        :eth1 => "192.168.0.5",
-        :mem => "4096",
-        :cpu => "2"
-    },
-    {
-        :name => "kube-node-01",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.6",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-02",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.7",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-03",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.8",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-04",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.9",
-        :mem => "8192",
-        :cpu => "4"
     }
 ]
 

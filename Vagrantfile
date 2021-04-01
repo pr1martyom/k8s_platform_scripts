@@ -110,14 +110,14 @@ SCRIPT
 # # Create and configure the VMs
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     servers.each do |server|
-        config.vm.define server[:name] do |srv|
-            srv.vm.synced_folder '.', '/vagrant', disabled: true
-            srv.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
-            srv.vm.box = server[:box]
-            srv.vm.box_version = server[:version]
-            srv.vm.hostname = server[:name]
-            srv.vm.network "public_network", bridge: "k8s-bridge", ip: server[:eth1]
-            # srv.ssh.forward_agent = true
+        config.vm.define server[:name] do |config|
+            config.vm.synced_folder '.', '/vagrant', disabled: true
+            config.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
+            config.vm.box = server[:box]
+            config.vm.box_version = server[:version]
+            config.vm.hostname = server[:name]
+            config.vm.network "public_network", bridge: "k8s-bridge", ip: server[:eth1]
+            config.ssh.forward_agent = true
 
             config.vm.provider "virtualbox" do |v|
                 v.name = server[:name]
@@ -128,7 +128,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
            
              public_key = File.read("./id_rsa.pub")
              
-            srv.vm.provision "shell", inline: <<-SCRIPT
+             config.vm.provision "shell", inline: <<-SCRIPT
                     mkdir -p /home/vagrant/.ssh
                     chmod 700 /home/vagrant/.ssh
                     touch /home/vagrant/.ssh/id_rsa
@@ -141,7 +141,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                     echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
                     chmod -R 600 /home/vagrant/.ssh/config
                 SCRIPT
-            srv.vm.provision "shell", inline: $configureBox
+            config.vm.provision "shell", inline: $configureBox
         end
     end
     

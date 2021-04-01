@@ -46,7 +46,7 @@ cd $WORKING_DIR;
 #sudo yum install python3-pip -y 
 pip3 install virtualenv --user
 mkdir -p /home/qzhub/.venv
-yes | cp -rpf ./kubespray /home/qzhub/.venv
+yes | cp -rpf ./kubernetes/kubespray /home/qzhub/.venv
 /home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages /home/qzhub/.venv
 source /home/qzhub/.venv/bin/activate
 pip install --upgrade pip
@@ -73,7 +73,6 @@ cd $WORKING_DIR; vagrant destroy --force;
 # fi
 echo "Provisioning Kubernetes VMs"
 cd $WORKING_DIR
-vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21
 export SIZE="$SIZE"
 cd $WORKING_DIR; vagrant up

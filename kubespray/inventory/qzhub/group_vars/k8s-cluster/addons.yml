@@ -1,0 +1,15 @@
+---
+dashboard_enabled: false
+helm_enabled: true
+registry_enabled: false
+metrics_server_enabled: true
+local_path_provisioner_enabled: false
+local_volume_provisioner_enabled: false
+cephfs_provisioner_enabled: false
+rbd_provisioner_enabled: false
+ingress_nginx_enabled: false
+ingress_publish_status_address: ""
+ingress_ambassador_enabled: false
+ingress_alb_enabled: false
+cert_manager_enabled: false
+metallb_enabled: false

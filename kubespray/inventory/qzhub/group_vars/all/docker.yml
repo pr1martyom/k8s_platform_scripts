@@ -1,0 +1,9 @@
+---
+docker_container_storage_setup: false
+docker_dns_servers_strict: false
+docker_daemon_graph: "/var/lib/docker"
+docker_iptables_enabled: "false"
+docker_log_opts: "--log-opt max-size=50m --log-opt max-file=5"
+docker_bin_dir: "/usr/bin"
+docker_rpm_keepcache: 0
+

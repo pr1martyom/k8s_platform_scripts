@@ -26,6 +26,7 @@ SCRIPT
 
 unless Vagrant.has_plugin?("vagrant-host-shell")
 	system('vagrant plugin install vagrant-host-shell')
+	system('vagrant plugin install vagrant-vbguest --plugin-version 0.21')
 	raise("Plugin installed. Run command again.");
 end
 
@@ -39,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     machines.each do |machine|
         config.vm.define machine['box']['name'] do |srv|
             srv.vm.synced_folder '.', '/vagrant', disabled: true
-            srv.vm.synced_folder '/shared-data', '/shared-data'
+            srv.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
             srv.vm.box = machine['box']['img']
             srv.vm.box_version = machine['box']['version']
             srv.vm.hostname = machine['box']['name']

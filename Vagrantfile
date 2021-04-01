@@ -1,8 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Specify minimum Vagrant version and Vagrant API version
-Vagrant.require_version '>= 1.6.0'
+# # Specify minimum Vagrant version and Vagrant API version
+# Vagrant.require_version '>= 1.6.0'
 VAGRANTFILE_API_VERSION = '2'
 
 servers = [
@@ -97,6 +97,7 @@ $configureBox = <<-SCRIPT
     yum install curl -y
     yum install net-tools -y
     yum install nc -y
+    systemctl restart sshd.service
 SCRIPT
 
 # unless Vagrant.has_plugin?("vagrant-host-shell")
@@ -111,7 +112,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #    config.vagrant.plugins = "vagrant-host-shell"
 # #    config.vagrant.plugins = "trigger"
     #Always use Vagrant's default insecure key
-    config.ssh.insert_key = true
+    # config.ssh.insert_key = true
     servers.each do |server|
         config.vm.define server[:name] do |srv|
             srv.vm.synced_folder '.', '/vagrant', disabled: true

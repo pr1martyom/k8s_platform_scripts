@@ -116,7 +116,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.define server[:name] do |srv|
             srv.vm.synced_folder '.', '/vagrant', disabled: true
             srv.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
-            srv.vm.box = server[:img]
+            srv.vm.box = server[:box]
             srv.vm.box_version = server[:version]
             srv.vm.hostname = server[:name]
             srv.vm.network "public_network", bridge: "k8s-bridge", ip: server[:eth1]

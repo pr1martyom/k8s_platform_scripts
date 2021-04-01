@@ -76,6 +76,7 @@ vagrant plugin uninstall vagrant-vbguest
 vagrant plugin install vagrant-vbguest --plugin-version 0.21
 export SIZE="$SIZE"
 cd $WORKING_DIR; vagrant up
+
 echo "Check SSH Connectivity....."
 checkssh
 configureHost

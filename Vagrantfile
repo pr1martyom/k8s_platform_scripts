@@ -5,87 +5,13 @@
 # Vagrant.require_version '>= 1.6.0'
 VAGRANTFILE_API_VERSION = '2'
 
-servers = [
-    {
-        :name => "kube-master-01",
-        :type => "master",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",        
-        :eth1 => "192.168.0.3",
-        :mem => "4096",
-        :cpu => "2"
-    },
-    {
-        :name => "kube-master-02",
-        :type => "master",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",        
-        :eth1 => "192.168.0.4",
-        :mem => "4096",
-        :cpu => "2"
-    },
-    {
-        :name => "kube-master-03",
-        :type => "master",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",        
-        :eth1 => "192.168.0.5",
-        :mem => "4096",
-        :cpu => "2"
-    },
-    {
-        :name => "kube-node-01",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.6",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-02",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.7",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-03",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.8",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-04",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.9",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-05",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.10",
-        :mem => "8192",
-        :cpu => "4"
-    }
-]
 
 # Require 'yaml' module
-# require 'yaml'
+ require 'yaml'
 
 # Read YAML file with VM details (box, CPU, RAM, IP addresses)
 # Edit machines.yml to change VM configuration details
-# machines = YAML.load_file(File.join(File.dirname(__FILE__), ENV['SIZE']))
+ servers = YAML.load_file(File.join(File.dirname(__FILE__), ENV['SIZE']))
 
 # # Inline script applies to all nodes
 

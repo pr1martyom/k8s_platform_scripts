@@ -81,8 +81,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
         config.vm.box_version = server[:version]
 
-        config.vm.define server[:name] do |vb|
-            vb.vm.hostname = server[:name]
+        config.vm.define vm_name = server[:name] do |vb|
+            vb.vm.hostname = vm_name
             vb.vm.network "public_network", bridge: "k8s-bridge", ip: server[:eth1]
             vb.ssh.forward_agent = true
 

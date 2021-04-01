@@ -41,16 +41,8 @@ servers = [
         :eth1 => "192.168.0.6",
         :mem => "8192",
         :cpu => "4"
-    },
-    {
-        :name => "kube-node-02",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.7",
-        :mem => "8192",
-        :cpu => "4"
     }
+  
 ]
 
 
@@ -95,7 +87,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             config.ssh.forward_agent = true
 
             config.vm.provider "virtualbox" do |config|
-                config.name = server[:name]
                 config.customize ["modifyvm", :id, "--groups", "/k8s lab"]
                 config.customize ["modifyvm", :id, "--memory", server[:mem]]
                 config.customize ["modifyvm", :id, "--cpus", server[:cpu]]

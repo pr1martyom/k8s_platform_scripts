@@ -43,11 +43,10 @@ fi
 #Configure Host Machine
 function configureHost {
 #sudo yum install python3-pip -y 
-pip3 install virtualenv --user
-pip3 install pyyaml
+#pip3 install virtualenv --user
+#pip3 install pyyaml
 mkdir -p /home/qzhub/.venv/kubespray 
 /home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages 
-/home/qzhub/.venv/kubespray
 source /home/qzhub/.venv/kubespray/bin/activate
 pip install --upgrade pip
 cd /home/qzhub/assets/kubespray
@@ -102,15 +101,15 @@ fi
 while getopts ":SML" option; do
    case $option in
       S ) # provision small VM
-        SIZE="/scripts/small.yml"
+        SIZE="./scripts/small.yml"
          provisionVM 
          exit;;
       M ) # provision small VM
-        SIZE="/scripts/medium.yml"
+        SIZE="./scripts/medium.yml"
          provisionVM 
          exit;;
       L ) # provision small VM
-        SIZE="/scripts/large.yml"
+        SIZE="./scripts/large.yml"
          provisionVM 
          exit;;
       \? ) echo "Invalid option -${option}" >&2

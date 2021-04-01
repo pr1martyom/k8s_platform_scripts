@@ -41,14 +41,16 @@ else
 fi
 }
 #Configure Host Machine
-function configureHost {
+function launchK8sInstall {
+cd $WORKING_DIR; 
 #sudo yum install python3-pip -y 
 pip3 install virtualenv --user
-mkdir -p /home/qzhub/.venv/kubespray 
-/home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages /home/qzhub/.venv/kubespray
-source /home/qzhub/.venv/kubespray/bin/activate
+mkdir -p /home/qzhub/.venv
+yes | cp -rpf ./kubespray /home/qzhub/.venv
+/home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages /home/qzhub/.venv
+source /home/qzhub/.venv/bin/activate
 pip install --upgrade pip
-cd /home/qzhub/assets/kubespray
+cd /home/qzhub/.venv/kubespray
 pip3 install -r requirements.txt && pip list
 }
 

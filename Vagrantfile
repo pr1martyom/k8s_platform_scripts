@@ -5,12 +5,89 @@
 # Vagrant.require_version '>= 1.6.0'
 VAGRANTFILE_API_VERSION = '2'
 
+servers = [
+    {
+        :name => "kube-master-01",
+        :type => "master",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",        
+        :eth1 => "192.168.0.3",
+        :mem => "4096",
+        :cpu => "2"
+    },
+    {
+        :name => "kube-master-02",
+        :type => "master",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",        
+        :eth1 => "192.168.0.4",
+        :mem => "4096",
+        :cpu => "2"
+    },
+    {
+        :name => "kube-master-03",
+        :type => "master",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",        
+        :eth1 => "192.168.0.5",
+        :mem => "4096",
+        :cpu => "2"
+    },
+    {
+        :name => "kube-node-01",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.6",
+        :mem => "8192",
+        :cpu => "4"
+    },
+    {
+        :name => "kube-node-02",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.7",
+        :mem => "8192",
+        :cpu => "4"
+    },
+    {
+        :name => "kube-node-03",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.8",
+        :mem => "8192",
+        :cpu => "4"
+    },
+    {
+        :name => "kube-node-04",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.9",
+        :mem => "8192",
+        :cpu => "4"
+    },
+    {
+        :name => "kube-node-05",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.10",
+        :mem => "8192",
+        :cpu => "4"
+    }
+]
+
+
+
 # Require 'yaml' module
- require 'yaml'
+# require 'yaml'
 
 # Read YAML file with VM details (box, CPU, RAM, IP addresses)
 # Edit machines.yml to change VM configuration details
- servers = YAML.load_file(File.join(File.dirname(__FILE__), ENV['SIZE']))
+# servers = YAML.load_file(File.join(File.dirname(__FILE__), ENV['SIZE']))
 
 # # Inline script applies to all nodes
 
@@ -35,20 +112,20 @@ SCRIPT
 # # Create and configure the VMs
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     servers.each do |server|
-        config.vm.define server['box']['name'] do |config|
+        config.vm.define server[:name] do |config|
             config.vm.synced_folder '.', '/vagrant', disabled: true
             config.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
-            config.vm.box = server['box']['img']
-            config.vm.box_version = server['box']['version']
-            config.vm.hostname = server['box']['name']
-            config.vm.network "public_network", bridge: "k8s-bridge", ip: server['box']['eth1']
+            config.vm.box = server[:box]
+            config.vm.box_version = server[:version]
+            config.vm.hostname = server[:name]
+            config.vm.network "public_network", bridge: "k8s-bridge", ip: server[:eth1]
             config.ssh.forward_agent = true
 
             config.vm.provider "virtualbox" do |v|
-                v.name = server['box']['name']
+                v.name = server[:name]
                 v.customize ["modifyvm", :id, "--groups", "/k8s lab"]
-                v.customize ["modifyvm", :id, "--memory", server['box']['mem']]
-                v.customize ["modifyvm", :id, "--cpus", server['box']['cpu']]
+                v.customize ["modifyvm", :id, "--memory", server[:mem]]
+                v.customize ["modifyvm", :id, "--cpus", server[:cpu]]
             end
            
              public_key = File.read("./id_rsa.pub")

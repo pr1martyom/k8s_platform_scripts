@@ -45,8 +45,7 @@ function configureHost {
 #sudo yum install python3-pip -y 
 pip3 install virtualenv --user
 mkdir -p /home/qzhub/.venv/kubespray 
-/home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages 
-/home/qzhub/.venv/kubespray
+/home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages /home/qzhub/.venv/kubespray
 source /home/qzhub/.venv/kubespray/bin/activate
 pip install --upgrade pip
 cd /home/qzhub/assets/kubespray

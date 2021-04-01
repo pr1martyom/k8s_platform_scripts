@@ -23,6 +23,60 @@ servers = [
         :eth1 => "192.168.0.4",
         :mem => "4096",
         :cpu => "2"
+    },
+    {
+        :name => "kube-master-03",
+        :type => "master",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",        
+        :eth1 => "192.168.0.5",
+        :mem => "4096",
+        :cpu => "2"
+    },
+    {
+        :name => "kube-node-01",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.6",
+        :mem => "8192",
+        :cpu => "4"
+    },
+    {
+        :name => "kube-node-02",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.7",
+        :mem => "8192",
+        :cpu => "4"
+    },
+    {
+        :name => "kube-node-03",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.8",
+        :mem => "8192",
+        :cpu => "4"
+    },
+    {
+        :name => "kube-node-04",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.9",
+        :mem => "8192",
+        :cpu => "4"
+    },
+    {
+        :name => "kube-node-05",
+        :type => "node",
+        :box => "boeboe/centos7-50gb",
+        :version => "1.0.1",
+        :eth1 => "192.168.0.10",
+        :mem => "8192",
+        :cpu => "4"
     }
 ]
 
@@ -55,10 +109,6 @@ SCRIPT
 # #  Inline script applies to master nodes only
 # # Create and configure the VMs
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-#    config.vagrant.plugins = "vagrant-host-shell"
-# #    config.vagrant.plugins = "trigger"
-    #Always use Vagrant's default insecure key
-    # config.ssh.insert_key = true
     servers.each do |server|
         config.vm.define server[:name] do |srv|
             srv.vm.synced_folder '.', '/vagrant', disabled: true
@@ -67,7 +117,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             srv.vm.box_version = server[:version]
             srv.vm.hostname = server[:name]
             srv.vm.network "public_network", bridge: "k8s-bridge", ip: server[:eth1]
-            srv.ssh.forward_agent = true
+            # srv.ssh.forward_agent = true
 
             config.vm.provider "virtualbox" do |v|
                 v.name = server[:name]

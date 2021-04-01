@@ -44,7 +44,6 @@ fi
 function configureHost {
 #sudo yum install python3-pip -y 
 pip3 install virtualenv --user
-pip3 install pyyaml
 mkdir -p /home/qzhub/.venv/kubespray 
 /home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages 
 /home/qzhub/.venv/kubespray
@@ -62,7 +61,6 @@ result=`python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"`
    exit 1; 
   fi
 }
-
 
 function provisionVM {
 

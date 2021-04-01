@@ -99,15 +99,15 @@ fi
 while getopts ":SML" option; do
    case $option in
       S ) # provision small VM
-        SIZE="./scripts/small.yml"
+        SIZE="/scripts/small.yml"
          provisionVM 
          exit;;
       M ) # provision small VM
-        SIZE="./scripts/medium.yml"
+        SIZE="/scripts/medium.yml"
          provisionVM 
          exit;;
       L ) # provision small VM
-        SIZE="./scripts/large.yml"
+        SIZE="/scripts/large.yml"
          provisionVM 
          exit;;
       \? ) echo "Invalid option -${option}" >&2

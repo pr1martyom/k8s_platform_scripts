@@ -46,7 +46,7 @@ function configureHost {
 #pip3 install virtualenv --user
 #pip3 install pyyaml
 mkdir -p /home/qzhub/.venv/kubespray 
-/home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages 
+/home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages  /home/qzhub/.venv/kubespray
 source /home/qzhub/.venv/kubespray/bin/activate
 pip install --upgrade pip
 cd /home/qzhub/assets/kubespray

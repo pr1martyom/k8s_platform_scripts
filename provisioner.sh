@@ -55,17 +55,18 @@ pip3 install -r requirements.txt && pip list
 }
 
 function checkssh {
-result=python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"
+result=0
 
-  if  [ "$result" != "0" ]; then
+result=`python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"`
+
+  if  [ $result != 0 ]; then
    echo "Unable to ssh to one or many nodes. Please check!!" 
    exit 1; 
   fi
 }
 
-
 function provisionVM {
-
+  
 echo "cloning repository into ... $WORKING_DIR"
 clone $REPOSITORY $WORKING_DIR $BRANCH
 

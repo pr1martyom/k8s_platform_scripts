@@ -55,25 +55,14 @@ pip3 install -r requirements.txt && pip list
 }
 
 function checkssh {
+result=python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"
 
-#!/bin/bash
-
-servers=$(grep -A1 'box:' $SIZE  | grep name|awk -F: '{print $2}'|sed -e 's/"//g');echo $servers
-
-
-for CONNECTIVITY in $servers
-
-do
-
-ssh -q -o BatchMode=yes vagrant\@$CONNECTIVITY exit
-
-if [ $? != "0" ]; then
-    echo "Connection failed"
-    exit 1;
-fi
-done
-
+  if  [ "$result" != "0" ]; then
+   echo "Unable to ssh to one or many nodes. Please check!!" 
+   exit 1; 
+  fi
 }
+
 
 function provisionVM {
 

@@ -70,12 +70,18 @@ helm upgrade --debug --install --create-namespace smoketest -n smoketest --set i
 
 echo "Installing Kubeview.."
 cd $RUNNER_DIR/charts/kubeview 
-kubeview helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ingress.hosts[0].host=kubeview.qzhub.kz --set-string ingress.hosts[0].paths[0]="/" --set ingress.className=nginx-controller .
+helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ingress.hosts[0].host=kubeview.qzhub.kz --set-string ingress.hosts[0].paths[0]="/" --set ingress.className=nginx-controller .
 
 echo "Installing Kubernetes dashboard.."
 cd $RUNNER_DIR/charts/k8s-dashboard
 kubectl apply -f $RUNNER_DIR/charts/k8s-dashboard/recommended.yaml
 kubectl apply -f $RUNNER_DIR/charts/k8s-dashboard/k8s-dashboard-ing.yaml
+
+echo "Installing Prometheus/Grafna.."
+cd $RUNNER_DIR/charts/kube-prometheus-stack
+helm upgrade --debug --install --create-namespace monitoring -n monitoring .
+
+
 }
 
 function checkssh {

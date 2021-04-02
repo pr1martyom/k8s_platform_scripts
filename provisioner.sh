@@ -52,7 +52,7 @@ mkdir -p /home/qzhub/.venv
 source /home/qzhub/.venv/bin/activate
 pip install --upgrade pip
 pip3 install -r requirements.txt && pip list
-ansible-playbook -i /home/qzhub/runner/k8s_platform_scripts/scripts/inventory/qzhub/hosts.ini ./cluster.yml -become --become-user=root -i / /home/qzhub/.ssh/id_rsa -e ansible_user=vagrant
+ansible-playbook -i /home/qzhub/runner/k8s_platform_scripts/scripts/inventory/qzhub/hosts.ini ./cluster.yml -become --become-user=root -i  /home/qzhub/.ssh/id_rsa -e ansible_user=vagrant
 }
 
 function checkssh {

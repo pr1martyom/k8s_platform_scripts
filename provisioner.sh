@@ -2,11 +2,13 @@
 
 # this script clones the platform scripts repository, master branch
 
-WORKING_DIR="/home/qzhub/runner/k8s_platform_scripts"
+RUNNER_DIR="/home/qzhub/runner/k8s_platform_scripts"
 
 VAGRANT_CWD="/home/qzhub/runner/k8s_platform_scripts"
 
 REPOSITORY="git@github.com:pr1martyom/k8s_platform_scripts.git"
+
+WORKSPACE_DIR="/home/qzhub/workspace/k8s_platform_scripts"
 
 BRANCH="develop"
 
@@ -42,7 +44,7 @@ fi
 }
 #Configure Host Machine
 function launchK8sInstall {
-cd $WORKING_DIR; 
+cd $WORKSPACE_DIR; 
 #sudo yum install python3-pip -y 
 pip3 install virtualenv --user
 mkdir -p /home/qzhub/.venv
@@ -52,11 +54,12 @@ source /home/qzhub/.venv/bin/activate
 pip install --upgrade pip
 cd /home/qzhub/.venv/kubespray
 pip3 install -r requirements.txt && pip list
+ansible-playbook -i $WORKSPACE_DIR/scripts/inventory/qzhub/hosts.ini  --become --become-user=root cluster.yml
 
 }
 
 function checkssh {
-result=`python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"`
+result=`python $RUNNER_DIR/scripts/tools.py "${RUNNER_DIR}${SIZE}"`
   if  [ "$result" != "0" ]; then
    echo "Unable to ssh to one or many nodes. Please check!!" 
    exit 1; 
@@ -64,10 +67,10 @@ result=`python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"`
 }
 
 function provisionVM {
-echo "cloning repository into ... $WORKING_DIR"
-clone $REPOSITORY $WORKING_DIR $BRANCH
+echo "cloning repository into ... $RUNNER_DIR"
+clone $REPOSITORY $RUNNER_DIR $BRANCH
 echo "Provisioning Kubernetes VMs"
-cd $WORKING_DIR; vagrant destroy --force; vagrant plugin install vagrant-vbguest --plugin-version 0.21; vagrant up
+#d $RUNNER_DIR; vagrant destroy --force; vagrant plugin install vagrant-vbguest --plugin-version 0.21; vagrant up
 echo "Check SSH Connectivity....."
 checkssh
 launchK8sInstall

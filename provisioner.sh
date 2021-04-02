@@ -82,7 +82,9 @@ cd $RUNNER_DIR/charts/kube-prometheus-stack
 helm upgrade --debug --install --create-namespace monitoring -n monitoring .
 
 
-}
+echo "Installing local storage provisioner"
+cd $RUNNER_DIR/charts/local-provisioner
+kubectl apply -f local-path-storage.yaml
 
 function checkssh {
 result=`python $RUNNER_DIR/scripts/tools.py "${RUNNER_DIR}${SIZE}"`

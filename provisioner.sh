@@ -24,12 +24,13 @@ usage()
    # Display Help
    echo "Vagrant VM Provisioner"
    echo
-   echo "Syntax: ./provisioner.sh -[P|I|A]"
+   echo "Syntax: ./provisioner.sh -[P|I|D|A]"
    echo "Example: ./provisioner.sh -P"
    echo "options:"
-   echo "P     (P)Provision VM(s) and Install K8(s)."
-   echo "I     (I)Install Charts."
-   echo "A     (A)Provision VM(s) and Install Charts"
+   echo "P     (P)Provision VM(s)."
+   echo "I     (I)Install K8s."
+   echo "D     (D)Deploy K8s Bootstrap Charts "
+   echo "A     (A)Provision VM(s), Install K8s and Deploy Charts"
    echo
 }
 
@@ -44,6 +45,7 @@ fi
 }
 #Configure Host Machine
 function launchK8sInstall {
+echo "Starting K8s Install..."    
 cd $RUNNER_DIR; 
 #sudo yum install python3-pip -y 
 pip3 install virtualenv --user
@@ -54,10 +56,12 @@ pip install --upgrade pip
 pip3 install -r requirements.txt && pip list
 ansible-playbook -i /home/qzhub/runner/k8s_platform_scripts/scripts/inventory/qzhub/hosts.ini ./cluster.yml -become --become-user=root -i  /home/qzhub/.ssh/id_rsa -e ansible_user=vagrant
 ssh vagrant@kube-master-01 "sudo cat /root/.kube/config" > /tmp/config
+echo "K8s Install Completed..." 
 }
 
 
 function installCharts {
+echo "Deploying K8s Bootstrap Helm Charts(s)"    
 export KUBECONFIG=/tmp/config
 #Install ingress-controller
 echo "Installing Ingress Controller.."
@@ -85,6 +89,7 @@ helm upgrade --debug --install --create-namespace monitoring -n monitoring .
 echo "Installing local storage provisioner"
 cd $RUNNER_DIR/charts/local-provisioner
 kubectl apply -f local-path-storage.yaml
+echo "Install Charts Completed..." 
 
 }
 
@@ -97,13 +102,13 @@ result=`python $RUNNER_DIR/scripts/tools.py "${RUNNER_DIR}${SIZE}"`
 }
 
 function provisionVM {
+echo "Provisioning VM(s)"  
 echo "cloning repository into ... $RUNNER_DIR"
 clone $REPOSITORY $RUNNER_DIR $BRANCH
 echo "Provisioning Kubernetes VMs"
 cd $RUNNER_DIR; vagrant destroy --force; vagrant plugin install vagrant-vbguest --plugin-version 0.21; vagrant up
 echo "Check SSH Connectivity....."
 checkssh
-launchK8sInstall
 }
 
 if [[ ! $@ =~ ^\-.+ ]]
@@ -111,7 +116,7 @@ then
   usage
 fi
 
-while getopts ":PIA" option; do
+while getopts ":PIDA" option; do
    case $option in
       P ) # provision small VM
          SIZE="/scripts/large.yml"
@@ -119,11 +124,15 @@ while getopts ":PIA" option; do
          exit;;
       I ) # provision small VM
          SIZE="/scripts/large.yml"
-         installCharts
+         launchK8sInstall
          exit;;
+      D ) # provision small VM
+         installCharts
+         exit;
       A ) # provision small VM
          SIZE="/scripts/large.yml"
          provisionVM
+         launchK8sInstall
          installCharts
          exit;;
       \? ) echo "Invalid option -${option}" >&2

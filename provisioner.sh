@@ -55,7 +55,6 @@ pip install --upgrade pip
 cd /home/qzhub/.venv/kubespray
 pip3 install -r requirements.txt && pip list
 ansible-playbook -i $WORKSPACE_DIR/scripts/inventory/qzhub/hosts.ini  --become --become-user=root cluster.yml
-
 }
 
 function checkssh {

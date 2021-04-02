@@ -24,12 +24,11 @@ usage()
    # Display Help
    echo "Vagrant VM Provisioner"
    echo
-   echo "Syntax: ./provisioner.sh -[S|M|L]"
-   echo "Example: ./provisioner.sh -S"
+   echo "Syntax: ./provisioner.sh -[P|I]"
+   echo "Example: ./provisioner.sh -P"
    echo "options:"
-   echo "S     (S)mall."
-   echo "M     (M)edium."
-   echo "L     (L)arge"
+   echo "P     (P)Provision."
+   echo "I     (M)Install."
    echo
 }
 
@@ -85,6 +84,8 @@ helm upgrade --debug --install --create-namespace monitoring -n monitoring .
 echo "Installing local storage provisioner"
 cd $RUNNER_DIR/charts/local-provisioner
 kubectl apply -f local-path-storage.yaml
+
+}
 
 function checkssh {
 result=`python $RUNNER_DIR/scripts/tools.py "${RUNNER_DIR}${SIZE}"`

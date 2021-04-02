@@ -44,7 +44,7 @@ fi
 }
 #Configure Host Machine
 function launchK8sInstall {
-cd $WORKSPACE_DIR; 
+cd $RUNNER_DIR; 
 #sudo yum install python3-pip -y 
 pip3 install virtualenv --user
 mkdir -p /home/qzhub/.venv
@@ -55,7 +55,6 @@ pip install --upgrade pip
 cd /home/qzhub/.venv/kubespray
 pip3 install -r requirements.txt && pip list
 ansible-playbook -i /home/qzhub/runner/k8s_platform_scripts/scripts/inventory/qzhub/hosts.ini ./cluster.yml -become --become-user=root -i / /home/qzhub/.ssh/id_rsa -e ansible_user=vagrant
-
 }
 
 function checkssh {

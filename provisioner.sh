@@ -128,7 +128,7 @@ while getopts ":PIDA" option; do
          exit;;
       D ) # provision small VM
          installCharts
-         exit;
+         exit;;
       A ) # provision small VM
          SIZE="/scripts/large.yml"
          provisionVM

@@ -53,8 +53,7 @@ mkdir -p /home/qzhub/.venv
 source /home/qzhub/.venv/bin/activate
 pip install --upgrade pip
 pip3 install -r requirements.txt && pip list
-cd $RUNNER_DIR; 
-ansible-playbook -i /home/qzhub/runner/k8s_platform_scripts/scripts/inventory/qzhub/hosts.ini ./cluster.yml -become --become-user=root -i  /home/qzhub/.ssh/id_rsa -e ansible_user=vagrant
+$RUNNER_DIR/kubernetes/kubespray/ansible-playbook -i /home/qzhub/runner/k8s_platform_scripts/scripts/inventory/qzhub/hosts.ini ./cluster.yml -become --become-user=root -i  /home/qzhub/.ssh/id_rsa -e ansible_user=vagrant
 ssh vagrant@kube-master-01 "sudo cat /root/.kube/config" > /tmp/config
 echo "K8s Install Completed..." 
 }

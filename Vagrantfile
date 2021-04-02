@@ -9,8 +9,7 @@
 # vagrant plugin install vagrant-hostsupdater
 # vagrant plugin install vagrant-host-shell
 
-
-servers = [
+boxes = [
     {
         :name => "kube-master-01",
         :type => "master",
@@ -85,7 +84,6 @@ servers = [
     }
 ]
 
-
 # Inline script applies to all nodes
 
 $configureBox = <<-SCRIPT
@@ -99,45 +97,41 @@ $configureBox = <<-SCRIPT
     systemctl restart sshd.service
 SCRIPT
 
+Vagrant.configure(2) do |config|
 
-#  Inline script applies to master nodes only
+    config.vm.box = "boeboe/centos7-50gb"
+    config.vm.box_version = "1.0.1"
+      # Turn off default shared folders
+      config.vm.synced_folder '.', '/vagrant', disabled: true
+      # Turn on shared folders for kube
+      config.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
+  
+    boxes.each do |opts|
+      config.vm.define opts[:name] do |config|
+        config.vm.hostname = opts[:name]
+        config.vm.network "public_network", bridge: "k8s-bridge", ip: opts[:eth1]
 
-Vagrant.configure("2") do |config|
-    config.vagrant.plugins = "vagrant-host-shell"
-    config.vagrant.plugins = "trigger"
-    servers.each do |opts|
-        config.vm.define opts[:name] do |config|
-        config.vm.synced_folder '.', '/vagrant', disabled: true
-            config.vm.box = opts[:box]
-            config.vm.box_version = opts[:version]
-            config.vm.hostname = opts[:name]
-            config.vm.network "public_network", bridge: "k8s-bridge", ip: opts[:eth1]
-            config.ssh.forward_agent = true
-
-            config.vm.provider "virtualbox" do |v|
-                v.name = opts[:name]
-                v.customize ["modifyvm", :id, "--groups", "/k8s lab"]
-                v.customize ["modifyvm", :id, "--memory", opts[:mem]]
-                v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
-            end
-            public_key = File.read("id_rsa.pub")
-            config.vm.provision "shell", inline: <<-SCRIPT
-                mkdir -p /home/vagrant/.ssh
-                chmod 700 /home/vagrant/.ssh
-                touch /home/vagrant/.ssh/id_rsa
-                chmod 600 /home/vagrant/.ssh/id_rsa
-                echo 'Copying ansible-vm public SSH Keys to the VM'
-                echo '#{public_key}' >> /home/vagrant/.ssh/authorized_keys
-                chmod -R 600 /home/vagrant/.ssh/authorized_keys
-                echo 'Host 192.168..' >> /home/vagrant/.ssh/config
-                echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config
-                echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
-                chmod -R 600 /home/vagrant/.ssh/config
-                SCRIPT
-            config.vm.provision "shell", inline: $configureBox
-
+        config.vm.provider "virtualbox" do |v|
+          v.customize ["modifyvm", :id, "--name", opts[:name]]
+          v.customize ["modifyvm", :id, "--memory", opts[:mem]]
+          v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
         end
-
+  
+        public_key = File.read("id_rsa.pub")
+        config.vm.provision "shell", inline: <<-SCRIPT
+            mkdir -p /home/vagrant/.ssh
+            chmod 700 /home/vagrant/.ssh
+            touch /home/vagrant/.ssh/id_rsa
+            chmod 600 /home/vagrant/.ssh/id_rsa
+            echo 'Copying ansible-vm public SSH Keys to the VM'
+            echo '#{public_key}' >> /home/vagrant/.ssh/authorized_keys
+            chmod -R 600 /home/vagrant/.ssh/authorized_keys
+            echo 'Host 192.168..' >> /home/vagrant/.ssh/config
+            echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config
+            echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
+            chmod -R 600 /home/vagrant/.ssh/config
+            SCRIPT
+        config.vm.provision "shell", inline: $configureBox
+      end
     end
-
 end

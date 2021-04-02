@@ -98,11 +98,10 @@ function provisionVM {
 echo "cloning repository into ... $RUNNER_DIR"
 clone $REPOSITORY $RUNNER_DIR $BRANCH
 echo "Provisioning Kubernetes VMs"
-#d $RUNNER_DIR; vagrant destroy --force; vagrant plugin install vagrant-vbguest --plugin-version 0.21; vagrant up
+cd $RUNNER_DIR; vagrant destroy --force; vagrant plugin install vagrant-vbguest --plugin-version 0.21; vagrant up
 echo "Check SSH Connectivity....."
 checkssh
 launchK8sInstall
-installCharts
 }
 
 if [[ ! $@ =~ ^\-.+ ]]
@@ -110,19 +109,15 @@ then
   usage
 fi
 
-while getopts ":SML" option; do
+while getopts ":PI" option; do
    case $option in
-      S ) # provision small VM
-        SIZE="/scripts/small.yml"
+      P ) # provision small VM
+         SIZE="/scripts/large.yml"
          provisionVM 
          exit;;
-      M ) # provision small VM
-        SIZE="/scripts/medium.yml"
-         provisionVM 
-         exit;;
-      L ) # provision small VM
-        SIZE="/scripts/large.yml"
-         provisionVM 
+      I ) # provision small VM
+         SIZE="/scripts/large.yml"
+         installCharts
          exit;;
       \? ) echo "Invalid option -${option}" >&2
           usage && exit 1

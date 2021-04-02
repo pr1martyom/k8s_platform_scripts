@@ -27,8 +27,8 @@ usage()
    echo "Syntax: ./provisioner.sh -[P|I]"
    echo "Example: ./provisioner.sh -P"
    echo "options:"
-   echo "P     (P)Provision."
-   echo "I     (M)Install."
+   echo "P     (P)Provision VM(s) and Install K8(s)."
+   echo "I     (I)Install Charts."
    echo
 }
 

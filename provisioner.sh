@@ -52,11 +52,11 @@ source /home/qzhub/.venv/bin/activate
 pip install --upgrade pip
 cd /home/qzhub/.venv/kubespray
 pip3 install -r requirements.txt && pip list
+
 }
 
 function checkssh {
 result=`python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"`
-
   if  [ "$result" != "0" ]; then
    echo "Unable to ssh to one or many nodes. Please check!!" 
    exit 1; 
@@ -64,22 +64,13 @@ result=`python $WORKING_DIR/scripts/tools.py "${WORKING_DIR}${SIZE}"`
 }
 
 function provisionVM {
-
 echo "cloning repository into ... $WORKING_DIR"
 clone $REPOSITORY $WORKING_DIR $BRANCH
-
-cd $WORKING_DIR; vagrant destroy --force;
-
-# fi
 echo "Provisioning Kubernetes VMs"
-cd $WORKING_DIR
-vagrant plugin install vagrant-vbguest --plugin-version 0.21
-export SIZE="$SIZE"
-cd $WORKING_DIR; vagrant up
-
+cd $WORKING_DIR; vagrant destroy --force; vagrant plugin install vagrant-vbguest --plugin-version 0.21; vagrant up
 echo "Check SSH Connectivity....."
 checkssh
-configureHost
+launchK8sInstall
 }
 
 if [[ ! $@ =~ ^\-.+ ]]

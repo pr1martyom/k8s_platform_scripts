@@ -24,11 +24,12 @@ usage()
    # Display Help
    echo "Vagrant VM Provisioner"
    echo
-   echo "Syntax: ./provisioner.sh -[P|I]"
+   echo "Syntax: ./provisioner.sh -[P|I|A]"
    echo "Example: ./provisioner.sh -P"
    echo "options:"
    echo "P     (P)Provision VM(s) and Install K8(s)."
    echo "I     (I)Install Charts."
+   echo "A     (A)Provision VM(s) and Install Charts"
    echo
 }
 
@@ -110,7 +111,7 @@ then
   usage
 fi
 
-while getopts ":PI" option; do
+while getopts ":PIA" option; do
    case $option in
       P ) # provision small VM
          SIZE="/scripts/large.yml"
@@ -118,6 +119,11 @@ while getopts ":PI" option; do
          exit;;
       I ) # provision small VM
          SIZE="/scripts/large.yml"
+         installCharts
+         exit;;
+      A ) # provision small VM
+         SIZE="/scripts/large.yml"
+         provisionVM
          installCharts
          exit;;
       \? ) echo "Invalid option -${option}" >&2

@@ -55,7 +55,7 @@ Update [machines.yaml] (scripts/machines.yml) which describes the target node st
     cpu: "2"
 ....   
 ```
-Run [provisioner.sh](provisioner.sh) supports the follwing options. 
+Run [provisioner.sh](provisioner.sh) scripts to deploy and bootstrap the cluster. [provisioner.sh](provisioner.sh) is a comprehensive self-service script used to build the Vagrant nodes, install Kubespray - https://github.com/kubernetes-sigs/kubespray  Kubernetes and helm charts.
 
 Note: Option (A) shown below will deploy a Full blown Kubernetes Cluster and integrated ingress controller, Cluster monitoring and local storage provisioners under 30 minute(s).
 

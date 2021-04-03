@@ -127,18 +127,18 @@ fi
 while getopts ":PIDA" option; do
    case $option in
       P ) # provision small VM
-         SIZE="/scripts/large.yml"
+         SIZE="/scripts/machines.yml"
          provisionVM 
          exit;;
       I ) # provision small VM
-         SIZE="/scripts/large.yml"
+         SIZE="/scripts/machines.yml"
          launchK8sInstall
          exit;;
       D ) # provision small VM
          installCharts
          exit;;
       A ) # provision small VM
-         SIZE="/scripts/large.yml"
+         SIZE="/scripts/machines.yml"
          provisionVM
          launchK8sInstall
          installCharts
@@ -148,3 +148,4 @@ while getopts ":PIDA" option; do
       ;;
    esac
 done
+

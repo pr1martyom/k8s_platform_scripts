@@ -24,7 +24,7 @@ spec:
             - containerPort: 9090
               protocol: TCP
           args:
-          - --system-banner=<b><i>Kubernetes v19.3.1 - Kubespray<i><b>
+          - --system-banner=<b><i>Kubernetes - Oodo Platform<i><b>
           - --system-banner-severity=INFO
             # Uncomment the following line to manually specify Kubernetes API server Host
             # If not specified, Dashboard will attempt to auto discover the API server and connect

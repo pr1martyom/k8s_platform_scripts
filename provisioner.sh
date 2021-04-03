@@ -52,6 +52,7 @@ mkdir -p /home/qzhub/.venv
 /home/qzhub/.local/bin/virtualenv -p python3 --system-site-packages /home/qzhub/.venv
 source /home/qzhub/.venv/bin/activate
 pip install --upgrade pip
+cd $RUNNER_DIR/k8s_platform_scripts/kubernetes/kubespray/
 pip3 install -r requirements.txt && pip list
 cd $RUNNER_DIR; 
 ansible-playbook -i /home/qzhub/runner/k8s_platform_scripts/scripts/inventory/qzhub/hosts.ini ./cluster.yml -become --become-user=root -i  /home/qzhub/.ssh/id_rsa -e ansible_user=vagrant

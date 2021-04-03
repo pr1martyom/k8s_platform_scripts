@@ -1,19 +1,17 @@
-# Deploy a Production Ready Kubernetes Cluster Using Vagrant
+# Production Ready Kubernetes Cluster Using Vagrant
 
+## Overview
 ![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes-sigs/kubespray/master/docs/img/kubernetes-logo.png)
 
-This project contains a Vagrantfile,Ansible and helm charts to bootstrap a multi-node Kubernetes Cluster. You can change the number of worker nodes in the Vagrantfile respectively in a typical barBaremetal implementation.
+This repository describes the steps required to setup a multi-node Kubernetes Cluster for Oodo Deployment.
 
-- **Highly available** cluster
-- **Composable** (Choice of the network plugin for instance)
-- Supports most popular **Linux distributions**
-- **Continuous integration tests**
-
+The repository contains a Vagrantfile, [Kubespray](https://github.com/kubernetes-sigs/kubespray) Kubernetes Implementation and bootstrap helm charts to deploy the cluster.
 
 ## Cluster Architecture
 
 ![Scheme](logo/K8s-Dev-Architecture.png)
 
+## Prerequisites
 ## Quick Start
 
 To deploy the cluster you can use :

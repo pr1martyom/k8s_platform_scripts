@@ -9,80 +9,13 @@
 # vagrant plugin install vagrant-hostsupdater
 # vagrant plugin install vagrant-host-shell
 
-boxes = [
-    {
-        :name => "kube-master-01",
-        :type => "master",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",        
-        :eth1 => "192.168.0.3",
-        :mem => "4096",
-        :cpu => "2"
-    },
-    {
-        :name => "kube-master-02",
-        :type => "master",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",        
-        :eth1 => "192.168.0.4",
-        :mem => "4096",
-        :cpu => "2"
-    },
-    {
-        :name => "kube-master-03",
-        :type => "master",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",        
-        :eth1 => "192.168.0.5",
-        :mem => "4096",
-        :cpu => "2"
-    },
-    {
-        :name => "kube-node-01",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.6",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-02",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.7",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-03",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.8",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-04",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.9",
-        :mem => "8192",
-        :cpu => "4"
-    },
-    {
-        :name => "kube-node-05",
-        :type => "node",
-        :box => "boeboe/centos7-50gb",
-        :version => "1.0.1",
-        :eth1 => "192.168.0.10",
-        :mem => "8192",
-        :cpu => "4"
-    }
-]
+# Require 'yaml' module
+require 'yaml'
+
+# Read YAML file with VM details (box, CPU, RAM, IP addresses)
+# Edit machines.yml to change VM configuration details
+machines = YAML.load_file(File.join(File.dirname(__FILE__), 'scripts/machines.yml'))
+
 
 # Inline script applies to all nodes
 
@@ -104,17 +37,17 @@ Vagrant.configure(2) do |config|
       # Turn off default shared folders
       config.vm.synced_folder '.', '/vagrant', disabled: true
       # Turn on shared folders for kube
-      config.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
+      config.vm.synced_folder "/tmp/kube-data", "/tmp/shared-data", mount_options: ["dmode=775,fmode=777"]
   
-    boxes.each do |opts|
-      config.vm.define opts[:name] do |config|
-        config.vm.hostname = opts[:name]
-        config.vm.network "public_network", bridge: "k8s-bridge", ip: opts[:eth1]
+      machines.each do |opts|
+      config.vm.define opts['box']['name'] do |config|
+        config.vm.hostname = opts['box']['name'] 
+        config.vm.network "public_network", bridge: "k8s-bridge", ip: opts['box']['eth1']
 
         config.vm.provider "virtualbox" do |v|
-          v.customize ["modifyvm", :id, "--name", opts[:name]]
-          v.customize ["modifyvm", :id, "--memory", opts[:mem]]
-          v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
+          v.customize ["modifyvm", :id, "--name", opts['box']['name'] ]
+          v.customize ["modifyvm", :id, "--memory", opts['box']['mem'] ]
+          v.customize ["modifyvm", :id, "--cpus", opts['box']['cpu'] ]
         end
   
         public_key = File.read("id_rsa.pub")

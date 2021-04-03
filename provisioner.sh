@@ -89,8 +89,7 @@ helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ing
 
 echo "Installing Kubernetes dashboard.."
 cd $RUNNER_DIR/charts/k8s-dashboard
-kubectl apply -f $RUNNER_DIR/charts/k8s-dashboard/recommended.yaml
-kubectl apply -f $RUNNER_DIR/charts/k8s-dashboard/k8s-dashboard-ing.yaml
+helm upgrade --install k8s-dashboard .
 
 
 echo "Installing Prometheus/Grafna.."

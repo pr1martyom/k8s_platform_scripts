@@ -82,7 +82,7 @@ helm upgrade --debug --install --create-namespace smoketest -n smoketest --set i
 
 echo "Installing Kubeview.."
 cd $RUNNER_DIR/charts/kubeview 
-helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ingress.hosts[0].host=kubeview.qzhub.kz --set-string ingress.hosts[0].paths[0]="/" --set ingress.className=nginx-controller .
+helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ingress.hosts[0].host=kubeview.qzhub.kz --set image.tag=0.1.18 --set-string ingress.hosts[0].paths[0]="/" --set ingress.className=nginx-controller .
 
 
 echo "Installing Kubernetes dashboard.."

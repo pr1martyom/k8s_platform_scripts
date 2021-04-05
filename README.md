@@ -26,7 +26,7 @@ OS X & Linux:
 ## Quickstart
 
 To deploy a multi-node Kubernetes Deployment run the following steps:
-Update [machines.yaml] (scripts/machines.yml) which describes the target node structure
+Update [machines.yaml] (/scripts/machines.yml) which describes the target node structure
 ```ShellSession
 ---
 - box:

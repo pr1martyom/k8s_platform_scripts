@@ -32,7 +32,33 @@ brctl addbr k8s-bridge
 ifconfig k8s-bridge 192.168.0.1 netmask 255.255.255.0
 ifconfig k8s-bridge up
 ```
+Install nfs server on the host machine.
+```ShellSession
+yum install nfs-utils nfs-utils-lib
+systemctl enable nfs-server
+systemctl start nfs-server
+```
+Add entry in  "/etc/exports"
+```ShellSession
+/kube-data *(rw,sync,fsid=0,no_root_squash,no_subtree_check,insecure)
+```
+Exports all shared listed in "/etc/exports:
+```ShellSession
+exportfs -arv
+```
+Allow iptables 
+```ShellSession
+firewall-cmd --permanent --add-service=rpc-bind
+firewall-cmd --permanent --add-service=mountd
+firewall-cmd --permanent --add-port=2049/tcp
+firewall-cmd --permanent --add-port=2049/udp
+firewall-cmd --reload
+```
 
+Deploy nfs provisioner via helm chart.
+Dynamic NFS Provisioning: is allows storage volumes to be created on-demand. The dynamic provisioning feature eliminates the need for cluster administrators to code-provision storage. Instead, it automatically provisions storage when it is requested by users. Persistent volumes are provisioned as ${namespace}-${pvcName}-${pvName}.
+You will need a operational Kubernetes Cluster.
+To deploy a NFS provisioner into the cluster you can run [provisioner.sh](provisioner.sh) script to deploy the nfs-provisioner helm chart.
 
 To deploy a multi-node Kubernetes Deployment run the following steps:
 Update [machines.yml](scripts/machines.yml) which describes the target node structure

@@ -107,6 +107,9 @@ echo "It took ${TIME} seconds!"
 function installOodoChart {
 echo "Deploying Oodo Helm Chart(s)"    
 export KUBECONFIG=/tmp/config
+echo "cloning repository into ... $RUNNER_DIR"
+clone $REPOSITORY $RUNNER_DIR $BRANCH
+
 #Install oodo chart
 echo "Installing Oodo Helm Chart.."
 cd $RUNNER_DIR/charts/odoo
@@ -140,7 +143,7 @@ then
   usage
 fi
 
-while getopts ":PIDA" option; do
+while getopts ":PIDOA" option; do
    case $option in
       P ) # provision small VM
          SIZE="/scripts/machines.yml"

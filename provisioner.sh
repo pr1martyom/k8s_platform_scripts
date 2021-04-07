@@ -71,11 +71,12 @@ cd $RUNNER_DIR/charts/nginx-ingress
 helm upgrade --debug --install --create-namespace ingress-controller -n ingress-controller --set controller.name=nginx-ingress-controller  --set controller.kind=daemonset --set controller.healthStatus=true --set controller.healthStatusURI="/healthz" --set controller.ingressClass=nginx-controller  --set controller.service.type=NodePort --set controller.service.httpPort.nodePort=32038 --set controller.service.httpsPort.nodePort=32034 --set prometheus.create=true --set controller.service.customPorts[0].port=9113 --set controller.service.customPorts[0].targetPort=9113 --set controller.service.customPorts[0].protocol=TCP --set controller.service.customPorts[0].name=ingress-prometheus --set controller.service.customPorts[0].nodePort=31040 --set-string controller.config.entries.use-forward-headers=true,controller.config.entries.compute-full-forwarded-for=true,controller.config.entries.use-proxy-protocol=true .
 
 
-echo "Installing local storage provisioner"
-cd $RUNNER_DIR/charts/local-provisioner
-kubectl apply -f local-path-storage.yaml
-echo "Install Charts Completed..." 
-
+echo "Installing nfs storage provisioner"
+cd $RUNNER_DIR/charts/nfs-provisioner
+kubectl create namespace nfs-provisioner
+kubectl apply -f nfs-service-account-role-bindings.yaml
+kubectl apply -f nfs-autoprovisioner.yaml
+kubectl apply -f storage-class.yaml
 
 echo "Installing Smoketest.."
 cd $RUNNER_DIR/charts/helm-smoketest

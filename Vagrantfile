@@ -16,7 +16,6 @@ require 'yaml'
 # Edit machines.yml to change VM configuration details
 machines = YAML.load_file(File.join(File.dirname(__FILE__), 'scripts/machines.yml'))
 
-nfs_server = "192.168.0.1"
 
 # Inline script applies to all nodes
 
@@ -37,8 +36,8 @@ Vagrant.configure(2) do |config|
     config.vm.box_version = "1.0.1"
       # Turn off default shared folders
       config.vm.synced_folder '.', '/vagrant', disabled: true
-      # Turn on shared folders for kube
-      config.vm.synced_folder "/tmp/kube-data", "/tmp/shared-data", mount_options: ["dmode=775,fmode=777"]
+      # # Turn on shared folders for kube
+      config.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
   
       machines.each do |opts|
       config.vm.define opts['box']['name'] do |config|
@@ -64,10 +63,6 @@ Vagrant.configure(2) do |config|
             echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config
             echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
             chmod -R 600 /home/vagrant/.ssh/config
-            sudo mkdir -p  /kube-data
-            sudo chown -R vagrant:vagrant /kube-data
-            sudo chmod -R 777 /kube-data
-            sudo  mount -t nfs #{nfs_server}:/kube-data /kube-data
             SCRIPT
         config.vm.provision "shell", inline: $configureBox
       end

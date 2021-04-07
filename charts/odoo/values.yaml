@@ -2,11 +2,11 @@
 ## Please, note that this will override the image parameters, including dependencies, configured to use the global value
 ## Current available global Docker image parameters: imageRegistry and imagePullSecrets
 ##
-# global:
+global:
 #   imageRegistry: myRegistryName
 #   imagePullSecrets:
 #     - myRegistryKeySecretName
-#   storageClass: myStorageClass
+  storageClass: nfs-storageclass
 
 ## Bitnami Odoo image version
 ## ref: https://hub.docker.com/r/bitnami/odoo/tags/
@@ -183,9 +183,9 @@ postgresql:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: local-path
+    ## storageClass: 
     accessMode: ReadWriteOnce
-    size: 100Gi
+    size: 300Gi
 
 ## Kubernetes svc configuration
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer
@@ -197,7 +197,7 @@ service:
   ## Kubernetes svc type
   ## For minikube, set this to NodePort, elsewhere use LoadBalancer
   ##
-  type: LoadBalancer
+  type: ClusterIP
   ## Use serviceLoadBalancerIP to request a specific static IP,
   ## otherwise leave blank
   ##
@@ -221,6 +221,10 @@ ingress:
   ## Set to true to enable ingress record generation
   ##
   enabled: true
+   
+  ## Ingress Class Name
+
+  ingressClassName: nginx-controller
 
   ## Set this to true in order to add the corresponding annotations for cert-manager
   ##
@@ -309,17 +313,17 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: local-path
+  ##  storageClass:
   accessMode: ReadWriteOnce
-  size: 100Gi
+  size: 300Gi
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
 resources:
   requests:
-    memory: 2048Mi
-    cpu: 1000m
+    memory: 4048Mi
+    cpu: 2000m
 
 ## Configure extra options for liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)

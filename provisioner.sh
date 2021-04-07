@@ -26,13 +26,14 @@ usage()
    # Display Help
    echo "Vagrant VM Provisioner"
    echo
-   echo "Syntax: ./provisioner.sh -[P|I|D|A]"
+   echo "Syntax: ./provisioner.sh -[P|I|D|A|O]"
    echo "Example: ./provisioner.sh -P"
    echo "options:"
    echo "P     (P)Provision VM(s)."
    echo "I     (I)Install K8s."
    echo "D     (D)Deploy K8s Bootstrap Charts "
-   echo "A     (A)Provision VM(s), Install K8s and Deploy Charts"
+   echo "A     (A)Provision VM(s), Install K8s and Deploy Bootstrap Charts"
+   echo "O     (O)Deploy Oodo"
    echo
 }
 
@@ -62,7 +63,7 @@ echo "K8s Install Completed..."
 }
 
 
-function installCharts {
+function installBootCharts {
 echo "Deploying K8s Bootstrap Helm Charts(s)"    
 export KUBECONFIG=/tmp/config
 #Install ingress-controller
@@ -102,6 +103,20 @@ echo "It took ${TIME} seconds!"
 
 }
 
+
+function installOodoChart {
+echo "Deploying Oodo Helm Chart(s)"    
+export KUBECONFIG=/tmp/config
+#Install oodo chart
+echo "Installing Oodo Helm Chart.."
+cd $RUNNER_DIR/charts/odoo
+
+kubectl create ns oodo
+helm upgrade --install oodo -n oodo .
+}
+
+
+
 function checkssh {
 result=`python $RUNNER_DIR/scripts/tools.py "${RUNNER_DIR}${SIZE}"`
   if  [ "$result" != "0" ]; then
@@ -136,13 +151,16 @@ while getopts ":PIDA" option; do
          launchK8sInstall
          exit;;
       D ) # provision small VM
-         installCharts
+         installBootCharts
+         exit;;
+      O ) # provision small VM
+         installOodoChart
          exit;;
       A ) # provision small VM
          SIZE="/scripts/machines.yml"
          provisionVM
          launchK8sInstall
-         installCharts
+         installBootCharts
          exit;;
       \? ) echo "Invalid option -${option}" >&2
           usage && exit 1

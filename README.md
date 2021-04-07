@@ -23,7 +23,16 @@ OS X & Linux:
 - Kubespray - https://github.com/kubernetes-sigs/kubespray
 - kubectl - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/https://direnv.net
 - Nginx Proxy Manager - https://nginxproxymanager.com
+- Dedicated Bridge connector exists
 ## Quickstart
+
+Setup a new bridge connector in the host machine. This connector establishes a bridge between host and guest VMs and internet connectivity
+```ShellSession
+brctl addbr k8s-bridge
+ifconfig k8s-bridge 192.168.0.1 netmask 255.255.255.0
+ifconfig k8s-bridge up
+```
+
 
 To deploy a multi-node Kubernetes Deployment run the following steps:
 Update [machines.yml](scripts/machines.yml) which describes the target node structure

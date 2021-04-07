@@ -144,6 +144,52 @@ drwxrwxrwx.  3 root root 4096 Apr  7 03:21 monitoring-prometheus-monitoring-kube
 [vagrant@kube-node-01 kube-data]$ 
 ```
 
+## Oodo Deployment
+Odoo is a suite of web-based open source business apps. The main Odoo Apps include an Open Source CRM, Website Builder, eCommerce, Project Management, Billing & Accounting, Point of Sale, Human Resources, Marketing, Manufacturing, Purchase Management etc.
+Oodo application will be deployed using the [Oodo Bitnami Helm Chart](https://bitnami.com/stack/odoo/helm)
+Oodo application helm chart deployed is integrated with the [provisioner.sh](provisioner.sh) script. 
+Choose option -O to deploy Oodo Application.
+
+```ShellSession
+
+[qzhub@qzhub-dev-01 k8s_platform_scripts]$ ./provisioner.sh 
+Vagrant VM Provisioner
+
+Syntax: ./provisioner.sh -[P|I|D|A|O]
+Example: ./provisioner.sh -P
+options:
+P     (P)Provision VM(s).
+I     (I)Install K8s.
+D     (D)Deploy K8s Bootstrap Charts 
+A     (A)Provision VM(s), Install K8s and Deploy Bootstrap Charts
+O     (O)Deploy Oodo
+
+....   
+```
+Oodo will utilize the custom NFS Dynamic storage provisioner as below.
+
+```ShellSession
+[qzhub@qzhub-dev-01 k8s_platform_scripts]$ kubectl get sc
+NAME               PROVISIONER   RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
+nfs-storageclass   kube-nfs      Delete          Immediate           false                  14h
+```
+
+List Oodo related Persistent Volume and Persistent Volume Claims
+
+```ShellSession
+[qzhub@qzhub-dev-01 k8s_platform_scripts]$ kubectl get pv 
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                                                                                               STORAGECLASS       REASON   AGE
+pvc-57fe8fea-16f8-4ff5-8c86-2c498d851b3f   300Gi      RWO            Delete           Bound    oodo/oodo-odoo                                                                                                      nfs-storageclass            10m
+pvc-7b0b760d-798c-4e32-9e88-96b2ca40fd2a   300Gi      RWO            Delete           Bound    oodo/data-oodo-postgresql-0                                                                                         nfs-storageclass            10m
+
+[qzhub@qzhub-dev-01 k8s_platform_scripts]$ kubectl get pvc -n oodo
+NAME                     STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS       AGE
+data-oodo-postgresql-0   Bound    pvc-7b0b760d-798c-4e32-9e88-96b2ca40fd2a   300Gi      RWO            nfs-storageclass   10m
+oodo-odoo                Bound    pvc-57fe8fea-16f8-4ff5-8c86-2c498d851b3f   300Gi      RWO            nfs-storageclass   10m
+
+```
+
+
 ## Supported Linux Distributions
 - **CentOS/RHEL** 7, 8 (experimental: see [centos 8 notes](docs/centos8.md))
 Note: The list of validated [docker versions](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker) is 1.13.1, 17.03, 17.06, 17.09, 18.06, 18.09 and 19.03. The recommended docker version is 19.03. The kubelet might break on docker's non-standard version numbering (it no longer uses semantic versioning). To ensure auto-updates don't break your cluster look into e.g. yum versionlock plugin or apt pin).

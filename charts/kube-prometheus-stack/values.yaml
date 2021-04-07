@@ -605,7 +605,7 @@ grafana:
   ##
   defaultDashboardsEnabled: true
 
-  adminPassword: prom-operator
+  adminPassword: qzhub-operator123
 
   ingress:
     ## If true, Grafana Ingress will be created

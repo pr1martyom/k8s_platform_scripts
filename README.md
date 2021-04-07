@@ -114,7 +114,7 @@ A     (A)Provision VM(s), Install K8s and Deploy Charts
 - [Password protected Kubernetes Dashboard] (https://k8s.qzhub.kz/)
 - [Password protected Prometheus & Grafana Monitoring] (https://grafana.qzhub.kz)
 - [Password protected Kubernetes Structure View](https://kubeview.qzhub.kz/)
-- [A smoketest utility shows Cluster health, configurations & versions] (https://smoketest.qzhub.kz/)
+- [Password protected Kubernetes Structure View] [A smoketest utility shows Cluster health, configurations & versions] (https://smoketest.qzhub.kz/)
 
 ## Dynamic Storage
 

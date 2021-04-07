@@ -26,7 +26,7 @@ OS X & Linux:
 - Dedicated Bridge connector exists
 ## Quickstart
 
-Setup a new bridge connector in the host machine. This connector establishes a bridge between host and guest VMs and internet connectivity
+Setup a new bridge connector in the host machine. This connector establishes a bridge between host and guest Virtual Machines(s)
 ```ShellSession
 brctl addbr k8s-bridge
 ifconfig k8s-bridge 192.168.0.1 netmask 255.255.255.0

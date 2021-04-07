@@ -94,7 +94,7 @@ A     (A)Provision VM(s), Install K8s and Deploy Charts
 
 Dynamic storage provisioners are enabled using [Local Path Provisioner](https://github.com/assign101/local-provisioner/blob/master/README.md_), provides a way for the Kubernetes users to utilize the local storage in each node. Based on the user configuration, the Local Path Provisioner will create `hostPath` based persistent volume on the node automatically. It utilizes the features introduced by Kubernetes [Local Persistent Volume feature](https://kubernetes.io/blog/2018/04/13/local-persistent-volumes-beta/), but make it a simpler solution than the built-in `local` volume feature in Kubernetes.
 
-A Kubernetes [Storage-Class](https://kubernetes.io/docs/concepts/storage/storage-classes/) called "local-path" will be created automatically to factilitate Dynamic local storage provisioning.
+A Kubernetes [Storage-Class](https://kubernetes.io/docs/concepts/storage/storage-classes/) "local-path" will be created automatically to factilitate Dynamic local storage provisioning.
 
 Dunamic storage provisioners simplifies the deployment and management of storage provisioning for StatefulSet deployments such as Postgres and Oodo Deployments.
 

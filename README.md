@@ -92,7 +92,7 @@ Update [machines.yml](scripts/machines.yml) which describes the target node stru
 ```
 Run [provisioner.sh](provisioner.sh) scripts to deploy and bootstrap the cluster. [provisioner.sh](provisioner.sh) is a comprehensive self-service script used to build the Vagrant nodes, install Kubespray - https://github.com/kubernetes-sigs/kubespray  Kubernetes and helm charts.
 
-Note: Option (A) shown below will deploy a Full blown Kubernetes Cluster and integrated ingress controller, Cluster monitoring and local storage provisioners under 30 minute(s).
+Note: Option (A) shown below will deploy a Full blown Kubernetes Cluster and integrated ingress controller, Cluster monitoring and NFS storage provisioners under 30 minute(s).
 
 ```ShellSession
 
@@ -118,46 +118,31 @@ A     (A)Provision VM(s), Install K8s and Deploy Charts
 
 ## Dynamic Storage
 
-Dynamic storage provisioners are enabled using [Local Path Provisioner](https://github.com/assign101/local-provisioner/blob/master/README.md_), provides a way for the Kubernetes users to utilize the local storage in each node. Based on the user configuration, the Local Path Provisioner will create `hostPath` based persistent volume on the node automatically. It utilizes the features introduced by Kubernetes [Local Persistent Volume feature](https://kubernetes.io/blog/2018/04/13/local-persistent-volumes-beta/), but make it a simpler solution than the built-in `local` volume feature in Kubernetes.
+Dynamic storage provisioners are enabled using [NFS Path Provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner), provides a way for the Kubernetes users to utilize the NFS  storage in each node. Based on the user configuration, the NFS  Path Provisioner will create `hostPath` based persistent volume on the node automatically. It utilizes the features introduced by Kubernetes [NFS Persistent Volume feature](https://kubernetes.io/docs/concepts/storage/storage-classes/), but make it a simpler solution than the built-in `NFS` volume feature in Kubernetes.
 
-A Kubernetes [Storage-Class](https://kubernetes.io/docs/concepts/storage/storage-classes/) "local-path" will be created automatically to factilitate Dynamic local storage provisioning.
+A Kubernetes [Storage-Class](https://kubernetes.io/docs/concepts/storage/storage-classes/) "kube-nfs" will be created automatically to factilitate Dynamic NFS storage provisioning.
 
 Dunamic storage provisioners simplifies the deployment and management of storage provisioning for StatefulSet deployments such as Postgres and Oodo Deployments.
 
 Prometheus & Grafana monitoring is enabled as Statefulset deployment as show below.
 
 ```ShellSession
-local-path-storage   local-path-provisioner-5696dbb894-95r79                  1/1     Running   0          18h
-monitoring           alertmanager-monitoring-kube-prometheus-alertmanager-0   2/2     Running   0          18h
-monitoring           monitoring-grafana-79b7497c9c-74n28                      2/2     Running   0          18h
-monitoring           monitoring-kube-prometheus-operator-57c94f897f-snm48     1/1     Running   0          18h
-monitoring           monitoring-kube-state-metrics-6bfb865c69-28wkv           1/1     Running   0          18h
-monitoring           monitoring-prometheus-node-exporter-2s86r                1/1     Running   0          18h
-monitoring           monitoring-prometheus-node-exporter-7fp5z                1/1     Running   0          18h
-monitoring           monitoring-prometheus-node-exporter-dmkgw                1/1     Running   0          18h
-monitoring           monitoring-prometheus-node-exporter-hh6k6                1/1     Running   0          18h
-monitoring           monitoring-prometheus-node-exporter-jhftf                1/1     Running   0          18h
-monitoring           monitoring-prometheus-node-exporter-lzchf                1/1     Running   0          18h
-monitoring           monitoring-prometheus-node-exporter-mt4fz                1/1     Running   0          18h
-monitoring           monitoring-prometheus-node-exporter-p9z4w                1/1     Running   0          18h
-monitoring           prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   37         18h
-smoketest            smoketest-helm-smoketest-9qfmd                           1/1     Running   0          18h
-smoketest            smoketest-helm-smoketest-bbkrh                           1/1     Running   0          18h
-smoketest            smoketest-helm-smoketest-bqxc2                           1/1     Running   0          18h
-smoketest            smoketest-helm-smoketest-n98c4                           1/1     Running   0          18h
-smoketest            smoketest-helm-smoketest-t85d2                           1/1     Running   0          18h
-[qzhub@qzhub-dev-01 k8s_platform_scripts]$ 
+[qzhub@qzhub-dev-01 ~]$ kubectl get pods -n nfs-provisioner
+NAME                                  READY   STATUS    RESTARTS   AGE
+nfs-pod-provisioner-c789dfb8d-vvkbs   1/1     Running   0          11h
+[qzhub@qzhub-dev-01 ~]$ 
 
-[vagrant@kube-master-01 shared-data]$ pwd
-/shared-data
-[vagrant@kube-master-01 shared-data]$ ls -altr
-total 8
-dr-xr-xr-x. 19 root    root     258 Apr  3 04:18 ..
-drwxrwxr-x.  1 vagrant vagrant 4096 Apr  3 04:51 pvc-a71bfb78-8468-4319-b8f9-bd4b45d39a27_monitoring_prometheus-monitoring-kube-prometheus-prometheus-db-prometheus-monitoring-kube-prometheus-prometheus-0
-drwxrwxr-x.  1 vagrant vagrant 4096 Apr  3 05:47 .
-[vagrant@kube-master-01 shared-data]$ 
-
+vagrant@kube-node-01 kube-data]$ pwd
+/kube-data
+[vagrant@kube-node-01 kube-data]$ ls -altr
+total 12
+dr-xr-xr-x. 21 root root  287 Apr  6 14:02 ..
+drwxrwxrwx.  4 root root 4096 Apr  7 01:40 postgres-data-postgres-postgresql-0-pvc-6414a513-f241-47e4-bb31-947ca7d6c434
+drwxrwxrwx.  4 root root 4096 Apr  7 03:21 .
+drwxrwxrwx.  3 root root 4096 Apr  7 03:21 monitoring-prometheus-monitoring-kube-prometheus-prometheus-db-prometheus-monitoring-kube-prometheus-prometheus-0-pvc-f4aae4ee-9685-47a9-8657-fdc3a7762cee
+[vagrant@kube-node-01 kube-data]$ 
 ```
+
 ## Supported Linux Distributions
 - **CentOS/RHEL** 7, 8 (experimental: see [centos 8 notes](docs/centos8.md))
 Note: The list of validated [docker versions](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker) is 1.13.1, 17.03, 17.06, 17.09, 18.06, 18.09 and 19.03. The recommended docker version is 19.03. The kubelet might break on docker's non-standard version numbering (it no longer uses semantic versioning). To ensure auto-updates don't break your cluster look into e.g. yum versionlock plugin or apt pin).

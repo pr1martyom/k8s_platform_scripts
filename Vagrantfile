@@ -36,8 +36,8 @@ Vagrant.configure(2) do |config|
     config.vm.box_version = "1.0.1"
       # Turn off default shared folders
       config.vm.synced_folder '.', '/vagrant', disabled: true
-      # # Turn on shared folders for kube
-      config.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
+      # # # Turn on shared folders for kube
+      # config.vm.synced_folder "/shared-data/kube-data", "/shared-data", mount_options: ["dmode=775,fmode=777"]
   
       machines.each do |opts|
       config.vm.define opts['box']['name'] do |config|

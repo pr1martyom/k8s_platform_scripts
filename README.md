@@ -99,13 +99,14 @@ Note: Option (A) shown below will deploy a Full blown Kubernetes Cluster and int
 [qzhub@qzhub-dev-01 k8s_platform_scripts]$ ./provisioner.sh 
 Vagrant VM Provisioner
 
-Syntax: ./provisioner.sh -[P|I|D|A]
+Syntax: ./provisioner.sh -[P|I|D|A|O]
 Example: ./provisioner.sh -P
 options:
 P     (P)Provision VM(s).
 I     (I)Install K8s.
 D     (D)Deploy K8s Bootstrap Charts 
-A     (A)Provision VM(s), Install K8s and Deploy Charts
+A     (A)Provision VM(s), Install K8s and Deploy Bootstrap Charts
+O     (O)Deploy Oodo
 
 ....   
 ```

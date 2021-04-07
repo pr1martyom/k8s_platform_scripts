@@ -146,12 +146,11 @@ drwxrwxrwx.  3 root root 4096 Apr  7 03:21 monitoring-prometheus-monitoring-kube
 
 ## Oodo Deployment
 Odoo is a suite of web-based open source business apps. The main Odoo Apps include an Open Source CRM, Website Builder, eCommerce, Project Management, Billing & Accounting, Point of Sale, Human Resources, Marketing, Manufacturing, Purchase Management etc.
-Oodo application will be deployed using the [Oodo Bitnami Helm Chart](https://bitnami.com/stack/odoo/helm)
-Oodo application helm chart deployed is integrated with the [provisioner.sh](provisioner.sh) script. 
-Choose option -O to deploy Oodo Application.
+Oodo application can be deployed using the [Oodo Bitnami Helm Chart](https://bitnami.com/stack/odoo/helm)
+Choose option -O in the [provisioner.sh](provisioner.sh) automation script to deploy Oodo Application.
+Oodo charts have been optimized for Production Deployment. 
 
 ```ShellSession
-
 [qzhub@qzhub-dev-01 k8s_platform_scripts]$ ./provisioner.sh 
 Vagrant VM Provisioner
 

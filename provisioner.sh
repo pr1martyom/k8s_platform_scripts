@@ -29,11 +29,12 @@ usage()
    echo "Syntax: ./provisioner.sh -[P|I|D|A|O]"
    echo "Example: ./provisioner.sh -P"
    echo "options:"
-   echo "P     (P) Provision VM(s)."
-   echo "I     (I) Install K8s."
-   echo "D     (D) Deploy K8s Bootstrap Charts "
-   echo "A     (A) Provision VM(s), Install K8s and Deploy Bootstrap Charts"
-   echo "O     (O) Deploy Odoo"
+   echo "P     (P)Provision VM(s)."
+   echo "C     (C)Check SSH Connectivity."
+   echo "I     (I)Install K8s."
+   echo "D     (D)Deploy K8s Bootstrap Charts "
+   echo "A     (A)Provision VM(s), Install K8s and Deploy Bootstrap Charts"
+   echo "O     (O)Deploy Oodo"
    echo
 }
 
@@ -107,9 +108,6 @@ echo "It took ${TIME} seconds!"
 function installOodoChart {
 echo "Deploying Oodo Helm Chart(s)"    
 export KUBECONFIG=/tmp/config
-echo "cloning repository into ... $RUNNER_DIR"
-clone $REPOSITORY $RUNNER_DIR $BRANCH
-
 #Install oodo chart
 echo "Installing Oodo Helm Chart.."
 cd $RUNNER_DIR/charts/odoo
@@ -126,6 +124,7 @@ result=`python $RUNNER_DIR/scripts/tools.py "${RUNNER_DIR}${SIZE}"`
    echo "Unable to ssh to one or many nodes. Please check!!" 
    exit 1; 
   fi
+ echo "SSH Connectivity successfull on all nodes" 
 }
 
 function provisionVM {
@@ -143,11 +142,15 @@ then
   usage
 fi
 
-while getopts ":PIDOA" option; do
+while getopts ":CPIDA" option; do
    case $option in
       P ) # provision small VM
          SIZE="/scripts/machines.yml"
          provisionVM 
+         exit;;
+      C ) # provision small VM
+         SIZE="/scripts/machines.yml"
+         checkssh
          exit;;
       I ) # provision small VM
          SIZE="/scripts/machines.yml"
@@ -170,4 +173,5 @@ while getopts ":PIDOA" option; do
       ;;
    esac
 done
+
 

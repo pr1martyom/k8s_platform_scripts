@@ -29,11 +29,11 @@ usage()
    echo "Syntax: ./provisioner.sh -[P|I|D|A|O]"
    echo "Example: ./provisioner.sh -P"
    echo "options:"
-   echo "P     (P)Provision VM(s)."
-   echo "I     (I)Install K8s."
-   echo "D     (D)Deploy K8s Bootstrap Charts "
-   echo "A     (A)Provision VM(s), Install K8s and Deploy Bootstrap Charts"
-   echo "O     (O)Deploy Oodo"
+   echo "P     (P) Provision VM(s)."
+   echo "I     (I) Install K8s."
+   echo "D     (D) Deploy K8s Bootstrap Charts "
+   echo "A     (A) Provision VM(s), Install K8s and Deploy Bootstrap Charts"
+   echo "O     (O) Deploy Odoo"
    echo
 }
 

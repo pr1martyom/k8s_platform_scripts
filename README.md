@@ -200,7 +200,7 @@ Copyright 2021, Cloud Native Solutions Pvt.Ltd  Distributed under Apache License
 
 ##  Disclaimer: 
 
-Copyright (c) 2021  "copyright notice checker" Authors. All rights reserved.
+Copyright (c) 2021  Cloud Native Solutions Pvt.Ltd Authors. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are

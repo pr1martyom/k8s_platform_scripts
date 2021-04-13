@@ -69,34 +69,34 @@ export KUBECONFIG=/tmp/config
 #Install ingress-controller
 echo "Installing Ingress Controller.."
 cd $RUNNER_DIR/charts/nginx-ingress
-#$helm upgrade --debug --install --create-namespace ingress-controller -n ingress-controller --set controller.name=nginx-ingress-controller  --set controller.kind=daemonset --set controller.healthStatus=true --set controller.healthStatusURI="/healthz" --set controller.ingressClass=nginx-controller  --set controller.service.type=NodePort --set controller.service.httpPort.nodePort=32038 --set controller.service.httpsPort.nodePort=32034 --set prometheus.create=true --set controller.service.customPorts[0].port=9113 --set controller.service.customPorts[0].targetPort=9113 --set controller.service.customPorts[0].protocol=TCP --set controller.service.customPorts[0].name=ingress-prometheus --set controller.service.customPorts[0].nodePort=31040 --set-string controller.config.entries.use-forward-headers=true,controller.config.entries.compute-full-forwarded-for=true,controller.config.entries.use-proxy-protocol=true .
+helm upgrade --debug --install --create-namespace ingress-controller -n ingress-controller --set controller.name=nginx-ingress-controller  --set controller.kind=daemonset --set controller.healthStatus=true --set controller.healthStatusURI="/healthz" --set controller.ingressClass=nginx-controller  --set controller.service.type=NodePort --set controller.service.httpPort.nodePort=32038 --set controller.service.httpsPort.nodePort=32034 --set prometheus.create=true --set controller.service.customPorts[0].port=9113 --set controller.service.customPorts[0].targetPort=9113 --set controller.service.customPorts[0].protocol=TCP --set controller.service.customPorts[0].name=ingress-prometheus --set controller.service.customPorts[0].nodePort=31040 --set-string controller.config.entries.use-forward-headers=true,controller.config.entries.compute-full-forwarded-for=true,controller.config.entries.use-proxy-protocol=true .
 
 
 echo "Installing nfs storage provisioner"
 cd $RUNNER_DIR/charts/nfs-provisioner
 kubectl create namespace nfs-provisioner
-kubectl apply -f $RUNNER_DIR/charts/nfs-provisioner/nfs-service-account-role-bindings.yaml
-kubectl apply -f $RUNNER_DIR/charts/nfs-provisioner/nfs-autoprovisioner.yaml
-kubectl apply -f $RUNNER_DIR/charts/nfs-provisioner/storage-class.yaml
+kubectl apply -f nfs-service-account-role-bindings.yaml
+kubectl apply -f nfs-autoprovisioner.yaml
+kubectl apply -f storage-class.yaml
 
 echo "Installing Smoketest.."
 cd $RUNNER_DIR/charts/helm-smoketest
-#helm upgrade --debug --install --create-namespace smoketest -n smoketest --set image.repository=sohnaeo/nginx-php-http-header --set image.tag=1.11 --set ingressexternalClass.name=nginx-controller --set ingress.external.hosts[0]=smoketest.${DOMAIN}  --set kubernetes.version=1.19.7 --set kubernetes.nginxingressVersion=1.19.6 --set kubernetes.etcdVersion=3.4.13 --set kubernetes.calicoVersion=3.16.5 --set kubernetes.dockerVersion=1.13.1 --set kubernetes.helmVersion=3.3.4 .
+helm upgrade --debug --install --create-namespace smoketest -n smoketest --set image.repository=sohnaeo/nginx-php-http-header --set image.tag=1.11 --set ingressexternalClass.name=nginx-controller --set ingress.external.hosts[0]=smoketest.${DOMAIN}  --set kubernetes.version=1.19.7 --set kubernetes.nginxingressVersion=1.19.6 --set kubernetes.etcdVersion=3.4.13 --set kubernetes.calicoVersion=3.16.5 --set kubernetes.dockerVersion=1.13.1 --set kubernetes.helmVersion=3.3.4 .
 
 
 echo "Installing Kubeview.."
 cd $RUNNER_DIR/charts/kubeview 
-#helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ingress.hosts[0].host=kubeview.${DOMAIN} --set image.tag=0.1.18 --set-string ingress.hosts[0].paths[0]="/" --set ingress.className=nginx-controller .
+helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ingress.hosts[0].host=kubeview.${DOMAIN} --set image.tag=0.1.18 --set-string ingress.hosts[0].paths[0]="/" --set ingress.className=nginx-controller .
 
 
 echo "Installing Kubernetes dashboard.."
 cd $RUNNER_DIR/charts/k8s-dashboard
-#helm upgrade --install k8s-dashboard -set ingress.hosts[0].host=k8s.${DOMAIN} .
+helm upgrade --install k8s-dashboard -set ingress.hosts[0].host=k8s.${DOMAIN} .
 
 
 echo "Installing Prometheus/Grafna.."
 cd $RUNNER_DIR/charts/kube-prometheus-stack
-#helm upgrade --debug --install --create-namespace monitoring -n monitoring --set grafana.ingress.hosts[0]=grafana.$DOMAIN --set prometheus.ingress.hosts[0]=prometheus.$DOMAIN --set alertmanager.ingress.hosts[0]=alertmanager.$DOMAIN .
+helm upgrade --debug --install --create-namespace monitoring -n monitoring --set grafana.ingress.hosts[0]=grafana.$DOMAIN --set prometheus.ingress.hosts[0]=prometheus.$DOMAIN --set alertmanager.ingress.hosts[0]=alertmanager.$DOMAIN .
 
 TIME="$(($(date +%s)-TIME))"
 echo "It took ${TIME} seconds!"

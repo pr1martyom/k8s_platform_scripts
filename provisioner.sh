@@ -20,6 +20,7 @@ STATUS=false
 
 SIZE=""
 
+DOMAIN=""
 
 usage()
 {
@@ -82,22 +83,22 @@ kubectl apply -f storage-class.yaml
 
 echo "Installing Smoketest.."
 cd $RUNNER_DIR/charts/helm-smoketest
-helm upgrade --debug --install --create-namespace smoketest -n smoketest --set image.repository=sohnaeo/nginx-php-http-header --set image.tag=1.11 --set ingressexternalClass.name=nginx-controller --set ingress.external.hosts[0]=smoketest.qzhub.kz  --set kubernetes.version=1.19.7 --set kubernetes.nginxingressVersion=1.19.6 --set kubernetes.etcdVersion=3.4.13 --set kubernetes.calicoVersion=3.16.5 --set kubernetes.dockerVersion=1.13.1 --set kubernetes.helmVersion=3.3.4 .
+helm upgrade --debug --install --create-namespace smoketest -n smoketest --set image.repository=sohnaeo/nginx-php-http-header --set image.tag=1.11 --set ingressexternalClass.name=nginx-controller --set ingress.external.hosts[0]=smoketest.${DOMAIN}  --set kubernetes.version=1.19.7 --set kubernetes.nginxingressVersion=1.19.6 --set kubernetes.etcdVersion=3.4.13 --set kubernetes.calicoVersion=3.16.5 --set kubernetes.dockerVersion=1.13.1 --set kubernetes.helmVersion=3.3.4 .
 
 
 echo "Installing Kubeview.."
 cd $RUNNER_DIR/charts/kubeview 
-helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ingress.hosts[0].host=kubeview.qzhub.kz --set image.tag=0.1.18 --set-string ingress.hosts[0].paths[0]="/" --set ingress.className=nginx-controller .
+helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ingress.hosts[0].host=kubeview.${DOMAIN} --set image.tag=0.1.18 --set-string ingress.hosts[0].paths[0]="/" --set ingress.className=nginx-controller .
 
 
 echo "Installing Kubernetes dashboard.."
 cd $RUNNER_DIR/charts/k8s-dashboard
-helm upgrade --install k8s-dashboard .
+helm upgrade --install k8s-dashboard -set ingress.hosts[0].host=k8s.${DOMAIN} .
 
 
 echo "Installing Prometheus/Grafna.."
 cd $RUNNER_DIR/charts/kube-prometheus-stack
-helm upgrade --debug --install --create-namespace monitoring -n monitoring .
+helm upgrade --debug --install --create-namespace monitoring -n monitoring --set grafana.ingress.hosts[0].host=grafana.${DOMAIN} --set prometheus.ingress.hosts[0].host=prometheus.${DOMAIN} .
 
 TIME="$(($(date +%s)-TIME))"
 echo "It took ${TIME} seconds!"
@@ -127,6 +128,12 @@ result=`python $RUNNER_DIR/scripts/tools.py "${RUNNER_DIR}${SIZE}"`
  echo "SSH Connectivity successfull on all nodes" 
 }
 
+function domain {
+echo "Enter domain name?"
+read domain
+DOMAIN=domain
+}
+
 function provisionVM {
 echo "Provisioning VM(s)"  
 echo "cloning repository into ... $RUNNER_DIR"
@@ -144,26 +151,29 @@ fi
 
 while getopts ":CPIDA" option; do
    case $option in
-      P ) # provision small VM
+      P ) # provision VM
          SIZE="/scripts/machines.yml"
          provisionVM 
          exit;;
-      C ) # provision small VM
+      C ) # Check SSH connectivity
          SIZE="/scripts/machines.yml"
          checkssh
          exit;;
-      I ) # provision small VM
+      I ) #  Install K8s
          SIZE="/scripts/machines.yml"
          launchK8sInstall
          exit;;
-      D ) # provision small VM
+      D ) # Install bootstrap helm charts
+         domain
          installBootCharts
          exit;;
-      O ) # provision small VM
+      O ) # Install oodo
+         domain
          installOodoChart
          exit;;
-      A ) # provision small VM
+      A ) #  perform all tasks
          SIZE="/scripts/machines.yml"
+         domain
          provisionVM
          launchK8sInstall
          installBootCharts

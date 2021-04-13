@@ -147,7 +147,7 @@ then
   usage
 fi
 
-while getopts ":CPIDA" option; do
+while getopts ":CPIDAO" option; do
    case $option in
       P ) # provision VM
          SIZE="/scripts/machines.yml"

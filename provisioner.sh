@@ -105,14 +105,18 @@ echo "It took ${TIME} seconds!"
 
 
 function installOodoChart {
+
 echo "Deploying Oodo Helm Chart(s)"    
 export KUBECONFIG=/tmp/config
+
+cd $RUNNER_DIR/charts/oodo
 #Install oodo chart
+
 echo "Installing Oodo Helm Chart.."
 cd $RUNNER_DIR/charts/odoo
 
 kubectl create ns oodo
-helm upgrade --install oodo -n oodo .
+helm upgrade --install oodo -n oodo --set ingress.hostname=oodo.$DOMAIN .
 }
 
 

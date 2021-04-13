@@ -10,8 +10,6 @@ VAGRANT_CWD="/home/qzhub/runner/k8s_platform_scripts"
 
 REPOSITORY="git@github.com:pr1martyom/k8s_platform_scripts.git"
 
-WORKSPACE_DIR="/home/qzhub/workspace/k8s_platform_scripts"
-
 BRANCH="develop"
 
 GIT=`which git`
@@ -98,7 +96,7 @@ helm upgrade --install k8s-dashboard -set ingress.hosts[0].host=k8s.${DOMAIN} .
 
 echo "Installing Prometheus/Grafna.."
 cd $RUNNER_DIR/charts/kube-prometheus-stack
-helm upgrade --debug --install --create-namespace monitoring -n monitoring --set grafana.ingress.hosts[0].host=grafana.${DOMAIN} --set prometheus.ingress.hosts[0].host=prometheus.${DOMAIN} .
+helm upgrade --debug --install --create-namespace monitoring -n monitoring --set grafana.ingress.hosts[0]=grafana.$DOMAIN --set prometheus.ingress.hosts[0]=prometheus.$DOMAIN --set alertmanager.ingress.hosts[0]=alertmanager.$DOMAIN .
 
 TIME="$(($(date +%s)-TIME))"
 echo "It took ${TIME} seconds!"

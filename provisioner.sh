@@ -109,11 +109,8 @@ function installOodoChart {
 echo "Deploying Oodo Helm Chart(s)"    
 export KUBECONFIG=/tmp/config
 
-cd $RUNNER_DIR/charts/oodo
-#Install oodo chart
-
-echo "Installing Oodo Helm Chart.."
 cd $RUNNER_DIR/charts/odoo
+echo "Installing Oodo Helm Chart.."
 
 kubectl create ns oodo
 helm upgrade --install oodo -n oodo --set ingress.hostname=oodo.$DOMAIN .

@@ -109,6 +109,8 @@ echo "Deploying Oodo Helm Chart(s)"
 export KUBECONFIG=/tmp/config
 
 cd $RUNNER_DIR/charts/odoo
+echo  $RUNNER_DIR/charts/odoo
+
 echo "Installing Oodo Helm Chart.."
 
 kubectl create ns oodo

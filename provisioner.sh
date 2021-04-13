@@ -64,6 +64,7 @@ echo "K8s Install Completed..."
 
 
 function installBootCharts {
+clone
 echo "Deploying K8s Bootstrap Helm Charts(s)"    
 export KUBECONFIG=/tmp/config
 #Install ingress-controller
@@ -105,7 +106,7 @@ echo "It took ${TIME} seconds!"
 
 
 function installOodoChart {
-
+clone
 echo "Deploying Oodo Helm Chart(s)"    
 export KUBECONFIG=/tmp/config
 

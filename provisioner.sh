@@ -25,14 +25,13 @@ usage()
    # Display Help
    echo "Vagrant VM Provisioner"
    echo
-   echo "Syntax: ./provisioner.sh -[P|I|D|A|O]"
+   echo "Syntax: ./provisioner.sh -[P|I|D|O]"
    echo "Example: ./provisioner.sh -P"
    echo "options:"
    echo "P     (P)Provision VM(s)."
    echo "C     (C)Check SSH Connectivity."
    echo "I     (I)Install K8s."
    echo "D     (D)Deploy K8s Bootstrap Charts "
-   echo "A     (A)Provision VM(s), Install K8s and Deploy Bootstrap Charts"
    echo "O     (O)Deploy Oodo"
    echo
 }
@@ -149,7 +148,7 @@ then
   usage
 fi
 
-while getopts ":CPIDAO" option; do
+while getopts ":CPIDO" option; do
    case $option in
       P ) # provision VM
          SIZE="/scripts/machines.yml"

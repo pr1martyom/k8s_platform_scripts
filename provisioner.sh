@@ -32,7 +32,7 @@ usage()
    echo "C     (C)Check SSH Connectivity."
    echo "I     (I)Install K8s."
    echo "D     (D)Deploy K8s Bootstrap Charts "
-   echo "O     (O)Deploy Oodo"
+   echo "O     (O)Deploy Odoo keycloak"
    echo
 }
 
@@ -90,7 +90,7 @@ helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ing
 
 echo "Installing Kubernetes dashboard.."
 cd $RUNNER_DIR/charts/k8s-dashboard
-helm upgrade --install k8s-dashboard -set ingress.hosts[0].host=k8s.${DOMAIN} .
+helm upgrade --install k8s-dashboard --set ingress.hosts[0].host=k8s.${DOMAIN} .
 
 
 echo "Installing Prometheus/Grafna.."
@@ -103,17 +103,25 @@ echo "It took ${TIME} seconds!"
 }
 
 
-function installOodoChart {
-echo "Deploying Oodo Helm Chart(s)"    
+function installOdookeycloakChart {
+echo "Deploying Odoo Helm Chart(s)"    
 export KUBECONFIG=/tmp/config
 
 cd $RUNNER_DIR/charts/odoo
 echo  $RUNNER_DIR/charts/odoo
 
-echo "Installing Oodo Helm Chart.."
+echo "Installing Odoo Helm Chart.."
 
-kubectl create ns oodo
-helm upgrade --install oodo -n oodo --set ingress.hostname=oodo.$DOMAIN .
+kubectl create ns odoo
+helm upgrade --install odoo -n odoo --set ingress.hostname=odoo.$DOMAIN .
+
+cd $RUNNER_DIR/charts/keycloak
+echo  $RUNNER_DIR/charts/keycloak
+
+echo "Installing keycloak Helm Chart.."
+
+kubectl create ns keycloak
+helm upgrade --install keycloak --namespace keycloak --set proxyAddressForwarding=true .
 }
 
 
@@ -168,7 +176,7 @@ while getopts ":CPIDO" option; do
          exit;;
       O ) # Install oodo
          domain
-         installOodoChart
+         installOdookeycloakChart
          exit;;
       A ) #  perform all tasks
          SIZE="/scripts/machines.yml"

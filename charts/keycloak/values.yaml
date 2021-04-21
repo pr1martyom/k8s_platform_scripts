@@ -505,6 +505,8 @@ ingress:
   ##
   pathType: ImplementationSpecific
 
+  ingressClassName: nginx-controller
+
   ## Ingress annotations done as key:value pairs
   ## For a full list of possible ingress annotations, please see
   ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md

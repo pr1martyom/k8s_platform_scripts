@@ -187,6 +187,10 @@ data-oodo-postgresql-0   Bound    pvc-7b0b760d-798c-4e32-9e88-96b2ca40fd2a   300
 oodo-odoo                Bound    pvc-57fe8fea-16f8-4ff5-8c86-2c498d851b3f   300Gi      RWO            nfs-storageclass   10m
 
 ```
+## Enable Single-Sign-On Using Keycloak
+To enable Single Sign-On for Odoo application follow the below mentioned steps.
+Lets consider the following request flow:
+
 
 
 ## Supported Linux Distributions

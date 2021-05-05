@@ -194,6 +194,45 @@ In our scenario Keycloak acts as the OAuth service and Odoo as the application t
 
 ![image](https://user-images.githubusercontent.com/81404769/117096709-3d0ad680-adad-11eb-9bda-67ac675c280d.png)
 
+This image depicts what we want to achieve. The user accesses Odoo and then decides to authenticate with Keycloak. He gets forwarded to the login page and authorizes the Odoo application to access his account informations. He then gets redirected back to the application. Trust is enabled by only allowing selected applications to be redirected. If you want to know more about OAuth authentication head down to the source chapter.
+
+We assume that we have the following service up and running:
+Keycloak Auth Server: https://keycloak.qzhub.kz/auth/
+Odoo Application: https://odoo.qzhub.kz/web/login
+
+## Setup Keycloak client
+Open the Keycloak management console,
+
+select your realm, navigate to Configure > Clients and create a new client.
+
+For Client ID use odoo, for Client Protocol openid-connect and as Root URL enter ${authBaseUrl}. Click save.
+
+In the client edit view make the following configurations.
+
+Access type: confidential
+
+Odoo OAuth will pass a secret to intiate the login protocol.
+
+Implicit Flow Enabled: On
+
+Odoo OAuth requires the implicit flow.
+
+Valid Redirect URIs:
+
+/realms/example.com/account/*
+http://odoo.example.com/auth_oauth/signin
+http://localhost:8069/auth_oauth/signin for development purposes
+Allow redirection to the odoo login page.
+
+Base URL: /realms/example.com/account/
+
+Leave the Admin URL and Web Origins empty.
+
+Save the settings and open the Mappers tab. Click on Add Builtin. Select and add the email entry. Open the email mapper and set as Token Claim Name the value user_id.
+
+This will ensure that the token has the email address set as user id.
+
+
 
 
 ## Supported Linux Distributions

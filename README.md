@@ -188,8 +188,11 @@ oodo-odoo                Bound    pvc-57fe8fea-16f8-4ff5-8c86-2c498d851b3f   300
 
 ```
 ## Enable Single-Sign-On Using Keycloak
-To enable Single Sign-On for Odoo application follow the below mentioned steps.
-Lets consider the following request flow:
+OAuth is an authorization framework that enables applications to obtain limited access to user accounts on an HTTP service. It works by delegating user authentication to the service that hosts the user account, and authorizing third-party applications to access the user account.
+
+In our scenario Keycloak acts as the OAuth service and Odoo as the application that delegates the user authentication. In this guide you learn how to configure Odoo and Keycloak to handle an implicit OAuth flow
+
+![image](https://user-images.githubusercontent.com/81404769/117096709-3d0ad680-adad-11eb-9bda-67ac675c280d.png)
 
 
 

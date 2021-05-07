@@ -215,9 +215,6 @@ For Client ID use odoo, for Client Protocol openid-connect and as Root URL enter
 
 ![image](https://user-images.githubusercontent.com/81404769/117444459-d63c1780-af7c-11eb-9067-7c11415a6fd9.png)
 
-Click Save
-
-
 
 In the client edit view make the following configurations.
 
@@ -239,8 +236,14 @@ Base URL:
 Leave the Base URL, Admin URL and Web Origins empty.
 
 
+Save the settings and open the Client Scopes tab.
+![image](https://user-images.githubusercontent.com/81404769/117446479-7a26c280-af7f-11eb-8ac6-350e0b7e5f26.png)
 
-Save the settings and open the Mappers tab. Click on Add Builtin. Select and add the email entry. Open the email mapper and set as Token Claim Name the value user_id.
+Save the settings and open the Mappers tab.
+
+![image](https://user-images.githubusercontent.com/81404769/117446593-9fb3cc00-af7f-11eb-90a4-bef3f89e0806.png)
+
+Click on Add Builtin. Select and add the email entry. Open the email mapper and set as Token Claim Name the value user_id.
 
 This will ensure that the token has the email address set as user id.
 

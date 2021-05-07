@@ -202,8 +202,19 @@ Odoo Application: https://odoo.qzhub.kz/web/login
 
 ## Setup Keycloak client
 Open the Keycloak management console,
+![image](https://user-images.githubusercontent.com/81404769/117443858-0c2ccc00-af7c-11eb-984f-9698687d0578.png)
 
-select your realm, navigate to Configure > Clients and create a new client.
+Create a new realm oodo
+![image](https://user-images.githubusercontent.com/81404769/117443968-2d8db800-af7c-11eb-9fd3-bf73fbd149a3.png)
+
+select your realm odoo, navigate to Configure > Clients and create a new client. 
+
+![image](https://user-images.githubusercontent.com/81404769/117444124-6037b080-af7c-11eb-97fb-609906d0d273.png)
+
+![image](https://user-images.githubusercontent.com/81404769/117444238-878e7d80-af7c-11eb-80c9-49d47abf5256.png)
+
+Click Save
+
 
 For Client ID use odoo, for Client Protocol openid-connect and as Root URL enter ${authBaseUrl}. Click save.
 

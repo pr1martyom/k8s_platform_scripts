@@ -209,14 +209,15 @@ Create a new realm oodo
 
 select your realm odoo, navigate to Configure > Clients and create a new client. 
 
+For Client ID use odoo, for Client Protocol openid-connect and as Root URL enter ${authBaseUrl}. Click save.
+
 ![image](https://user-images.githubusercontent.com/81404769/117444124-6037b080-af7c-11eb-97fb-609906d0d273.png)
 
-![image](https://user-images.githubusercontent.com/81404769/117444238-878e7d80-af7c-11eb-80c9-49d47abf5256.png)
+![image](https://user-images.githubusercontent.com/81404769/117444459-d63c1780-af7c-11eb-9067-7c11415a6fd9.png)
 
 Click Save
 
 
-For Client ID use odoo, for Client Protocol openid-connect and as Root URL enter ${authBaseUrl}. Click save.
 
 In the client edit view make the following configurations.
 
@@ -230,19 +231,18 @@ Odoo OAuth requires the implicit flow.
 
 Valid Redirect URIs:
 
-/realms/example.com/account/*
-http://odoo.example.com/auth_oauth/signin
-http://localhost:8069/auth_oauth/signin for development purposes
-Allow redirection to the odoo login page.
+https://odoo.qzhub.kz/auth_oauth/signin
+*
 
-Base URL: /realms/example.com/account/
+Base URL:
 
-Leave the Admin URL and Web Origins empty.
+Leave the Base URL, Admin URL and Web Origins empty.
+
+
 
 Save the settings and open the Mappers tab. Click on Add Builtin. Select and add the email entry. Open the email mapper and set as Token Claim Name the value user_id.
 
 This will ensure that the token has the email address set as user id.
-
 
 
 

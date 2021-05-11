@@ -12,6 +12,8 @@ The implementation also includes Dynamic volume provisioning which allows storag
 
 ![Scheme](logo/K8s-Dev-Architecture.png)
 
+![image](https://user-images.githubusercontent.com/81404769/117814213-5dec9380-b2a7-11eb-9068-202004511399.png)
+
 ## Prerequisites
 OS X & Linux:
 
@@ -25,8 +27,15 @@ OS X & Linux:
 - Nginx Proxy Manager - https://nginxproxymanager.com
 - Dedicated Bridge connector exists
 
-![image](https://user-images.githubusercontent.com/81404769/117814213-5dec9380-b2a7-11eb-9068-202004511399.png)
-
+## Specific Helm & Kubectl Versions
+```
+[qzhub@qzhub-dev-01 ~]$ helm version
+version.BuildInfo{Version:"v3.3.4", GitCommit:"a61ce5633af99708171414353ed49547cf05013d", GitTreeState:"clean", GoVersion:"go1.14.9"}
+[qzhub@qzhub-dev-01 ~]$ kubectl version
+Client Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.4", GitCommit:"e87da0bd6e03ec3fea7933c4b5263d151aafd07c", GitTreeState:"clean", BuildDate:"2021-02-18T16:12:00Z", GoVersion:"go1.15.8", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.7", GitCommit:"1dd5338295409edcfff11505e7bb246f0d325d15", GitTreeState:"clean", BuildDate:"2021-01-13T13:15:20Z", GoVersion:"go1.15.5", Compiler:"gc", Platform:"linux/amd64"}
+[qzhub@qzhub-dev-01 ~]$ 
+```
 
 ## Quickstart
 

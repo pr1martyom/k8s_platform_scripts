@@ -1,0 +1,8 @@
+---
+etcd_data_dir: /var/lib/etcd
+etcd_kubeadm_enabled: false
+bin_dir: /usr/local/bin
+loadbalancer_apiserver_port: 6443
+loadbalancer_apiserver_healthcheck_port: 8081
+no_proxy_exclude_workers: false
+

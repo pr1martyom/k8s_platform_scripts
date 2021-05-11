@@ -1,0 +1,47 @@
+{{- if .Values.ingress.external.enabled -}}
+{{- $fullName := include "smoketest.fullname" . -}}
+{{- $ingressPath := .Values.ingress.external.path -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-external
+  labels:
+    app: {{ include "smoketest.name" . }}
+    chart: {{ include "smoketest.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    ingress.kubernetes.io/affinity: cookie
+    ingress.kubernetes.io/enable-cors: "false"
+    ingress.kubernetes.io/session-cookie-hash: sha1
+    ingress.kubernetes.io/session-cookie-name: route
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      underscores_in_headers          on;
+spec:
+{{- if .Values.ingress.tls }}
+  tls:
+  {{- range .Values.ingress.external.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  ingressClassName: {{ .Values.ingressexternalClass.name }}
+  rules:
+  {{- range .Values.ingress.external.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: {{ $ingressPath }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName}}
+                port:
+                  number: 80
+  {{- end }}
+{{- end }}

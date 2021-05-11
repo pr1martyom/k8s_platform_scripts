@@ -263,7 +263,7 @@ Custom Confiuration settings
 Standard SSL Settings
 ![image](https://user-images.githubusercontent.com/81404769/117774188-9165f880-b27c-11eb-9a0b-a7a965270c99.png)
 
-#Pass proxyAddressForwarding for Keycloak Helm Install
+##Pass proxyAddressForwarding for Keycloak Helm Install
 
 ```
 helm upgrade --install keycloak --namespace keycloak --set proxyAddressForwarding=true .

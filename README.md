@@ -24,6 +24,10 @@ OS X & Linux:
 - kubectl - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/https://direnv.net
 - Nginx Proxy Manager - https://nginxproxymanager.com
 - Dedicated Bridge connector exists
+
+![image](https://user-images.githubusercontent.com/81404769/117814213-5dec9380-b2a7-11eb-9068-202004511399.png)
+
+
 ## Quickstart
 
 Setup a new bridge connector in the host machine. This connector establishes a bridge between host and guest Virtual Machines(s)

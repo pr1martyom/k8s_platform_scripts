@@ -12,8 +12,6 @@ The implementation also includes Dynamic volume provisioning which allows storag
 
 ![Scheme](logo/K8s-Dev-Architecture.png)
 
-![image](https://user-images.githubusercontent.com/81404769/117814213-5dec9380-b2a7-11eb-9068-202004511399.png)
-
 ## Prerequisites
 OS X & Linux:
 

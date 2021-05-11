@@ -249,6 +249,31 @@ This will ensure that the token has the email address set as user id.
 
 
 
+##Nginx Manager Setup for Keycloak
+
+Nginx Manager Proxy Host settings must have specific headers as custom configurations to handle the mixed content forwarded from Nginx Manager to the KeyCloak Admin Console inside a typical setup where keycloak is behind the Nginx Manager.
+
+#How to configure Nginx Manager Proxy Host  for Keycloak?
+
+![image](https://user-images.githubusercontent.com/81404769/117774057-6e3b4900-b27c-11eb-8b2f-22174e7d5ab9.png)
+
+Custom Confiuration settings
+![image](https://user-images.githubusercontent.com/81404769/117774119-801cec00-b27c-11eb-9832-e1b3e737e874.png)
+
+Standard SSL Settings
+![image](https://user-images.githubusercontent.com/81404769/117774188-9165f880-b27c-11eb-9a0b-a7a965270c99.png)
+
+#Pass proxyAddressForwarding for Keycloak Helm Install
+
+```
+helm upgrade --install keycloak --namespace keycloak --set proxyAddressForwarding=true .
+```
+Note: 
+   proxyAddressForwarding option is already included in [provisioner.sh](provisioner.sh) script
+
+
+
+
 ## Supported Linux Distributions
 - **CentOS/RHEL** 7, 8 (experimental: see [centos 8 notes](docs/centos8.md))
 Note: The list of validated [docker versions](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker) is 1.13.1, 17.03, 17.06, 17.09, 18.06, 18.09 and 19.03. The recommended docker version is 19.03. The kubelet might break on docker's non-standard version numbering (it no longer uses semantic versioning). To ensure auto-updates don't break your cluster look into e.g. yum versionlock plugin or apt pin).

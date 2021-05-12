@@ -139,6 +139,8 @@ kubectl delete -f $RUNNER_DIR/charts/nfs-provisioner/nfs-service-account-role-bi
 kubectl delete -f $RUNNER_DIR/charts/nfs-provisioner/nfs-autoprovisioner.yaml
 kubectl delete -f $RUNNER_DIR/charts/nfs-provisioner/storage-class.yaml
 
+kubectl delete pvc prometheus-monitoring-kube-prometheus-prometheus-db-prometheus-monitoring-kube-prometheus-prometheus-0 -n monitoring 
+
 }
 
 function checkssh {

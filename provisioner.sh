@@ -33,6 +33,7 @@ usage()
    echo "I     (I)Install K8s."
    echo "D     (D)Deploy K8s Bootstrap Charts "
    echo "O     (O)Deploy Odoo keycloak"
+   echo "X     (X)Delete all Bootstrap Charts "
    echo
 }
 
@@ -126,7 +127,19 @@ kubectl create ns keycloak
 helm upgrade --install keycloak --namespace keycloak --set proxyAddressForwarding=true .
 }
 
+function uninstallBootCharts {
 
+helm uninstall ingress-controller -n ingress-controller
+helm uninstall kubeview -n kubeview
+helm uninstall monitoring -n monitoring
+helm uninstall k8s-dashboard
+helm uninstall smoketest -n smoketest
+
+kubectl delete -f $RUNNER_DIR/charts/nfs-provisioner/nfs-service-account-role-bindings.yaml
+kubectl delete -f $RUNNER_DIR/charts/nfs-provisioner/nfs-autoprovisioner.yaml
+kubectl delete -f $RUNNER_DIR/charts/nfs-provisioner/storage-class.yaml
+
+}
 
 function checkssh {
 result=`python $RUNNER_DIR/scripts/tools.py "${RUNNER_DIR}${SIZE}"`
@@ -158,7 +171,7 @@ then
   usage
 fi
 
-while getopts ":CPIDO" option; do
+while getopts ":CPIDOX" option; do
    case $option in
       P ) # provision VM
          SIZE="/scripts/machines.yml"
@@ -187,6 +200,9 @@ while getopts ":CPIDO" option; do
          launchK8sInstall
          installBootCharts
          exit;;
+      X ) # Cleanup bootstrap charts
+         uninstallBootCharts
+         exit;; 
       \? ) echo "Invalid option -${option}" >&2
           usage && exit 1
       ;;

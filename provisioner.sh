@@ -93,7 +93,7 @@ helm upgrade --debug --install --create-namespace kubeview -n kubeview --set ing
 
 echo "Installing Kubernetes dashboard.."
 cd $RUNNER_DIR/charts/k8s-dashboard
-helm upgrade --install k8s-dashboard --set ingress.hosts[0].host=k8s.${DOMAIN} .
+helm upgrade --install k8s-dashboard --set hostname=k8s.${DOMAIN} .
 
 
 echo "Installing Prometheus/Grafna.."

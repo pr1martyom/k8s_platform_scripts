@@ -9,6 +9,9 @@ metadata:
 {{- end }}
   name: {{ include "ingress-nginx.controller.fullname" . }}
 data:
+#  forwarded-for-header: X-Client-IP
+#  generate-request-id: "true"
+#  use-forwarded-headers: "true"
 {{- if .Values.controller.addHeaders }}
   add-headers: {{ .Release.Namespace }}/{{ include "ingress-nginx.fullname" . }}-custom-add-headers
 {{- end }}

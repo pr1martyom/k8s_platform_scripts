@@ -282,7 +282,47 @@ helm upgrade --install keycloak --namespace keycloak --set proxyAddressForwardin
 Note: 
    proxyAddressForwarding option is already included in [provisioner.sh](provisioner.sh) script
 
+## Ingress Controller Settings.
+   Apply below settings in the ingress controller
 
+```
+  forwarded-for-header: X-Client-IP
+  generate-request-id: "true"
+  use-forwarded-headers: "true"
+```
+
+
+ sample Ingress Controller ConfigMap
+ 
+ ```
+ # Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  forwarded-for-header: X-Client-IP
+  generate-request-id: "true"
+  use-forwarded-headers: "true"
+kind: ConfigMap
+metadata:
+  annotations:
+    meta.helm.sh/release-name: ingress-controller
+    meta.helm.sh/release-namespace: ingress-controller
+  creationTimestamp: "2021-04-21T01:52:07Z"
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-controller
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/version: 0.45.0
+    helm.sh/chart: ingress-nginx-3.29.0
+  name: ingress-controller-ingress-nginx-controller
+  namespace: ingress-controller
+  resourceVersion: "6984487"
+  selfLink: /api/v1/namespaces/ingress-controller/configmaps/ingress-controller-ingress-nginx-controller
+  uid: 8758838f-1129-4623-85e6-039de70f75b1
+```
 
 
 ## Supported Linux Distributions

@@ -31,9 +31,7 @@ $configureBox = <<-SCRIPT
 SCRIPT
 
 Vagrant.configure(2) do |config|
-
-    config.vm.box = "boeboe/centos7-50gb"
-    config.vm.box_version = "1.0.1"
+    config.vm.box = "geerlingguy/centos7"
       # Turn off default shared folders
       config.vm.synced_folder '.', '/vagrant', disabled: true
       # # # Turn on shared folders for kube
@@ -69,4 +67,3 @@ Vagrant.configure(2) do |config|
       end
     end
 end
-

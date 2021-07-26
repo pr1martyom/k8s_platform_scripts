@@ -93,3 +93,23 @@ git clone https://github.com/pr1martyom/k8s_platform_scripts
 cd k8s_platform_scripts/
 
 git checkout develop
+
+# Step 10: Install ansible 
+
+sudo yum -y install epel-repo
+
+sudo yum -y update
+
+sudo yum -y install ansible
+
+# Step 11: Install kubectl
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+
+echo "$(<kubectl.sha256) kubectl" | sha256sum --check
+
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+

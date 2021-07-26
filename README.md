@@ -81,11 +81,53 @@ sudo yum install git -y
 
 mkdir npm && cd npm
 
+cat <<EOF > docker-compose.yml
+version: '3'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+EOF
+
 docker-compose up -d
 
 # Step 8: add ip to /etc/hosts
 
+sudo vi /etc/hosts
 
+````
+kube-master-01 192.168.0.3
+kube-master-02 192.168.0.4
+kube-master-03 192.168.0.5
+kube-node-01 192.168.0.6
+kube-node-02 192.168.0.7
+kube-node-03 192.168.0.8
+kube-node-04 192.168.0.9
+kube-node-05 192.168.0.10
+```  
 # Step 9: Clone repository
 
 git clone https://github.com/pr1martyom/k8s_platform_scripts

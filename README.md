@@ -25,16 +25,6 @@ OS X & Linux:
 - Nginx Proxy Manager - https://nginxproxymanager.com
 - Dedicated Bridge connector exists
 
-## Specific Helm & Kubectl Versions
-```
-[qzhub@qzhub-dev-01 ~]$ helm version
-version.BuildInfo{Version:"v3.3.4", GitCommit:"a61ce5633af99708171414353ed49547cf05013d", GitTreeState:"clean", GoVersion:"go1.14.9"}
-[qzhub@qzhub-dev-01 ~]$ kubectl version
-Client Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.4", GitCommit:"e87da0bd6e03ec3fea7933c4b5263d151aafd07c", GitTreeState:"clean", BuildDate:"2021-02-18T16:12:00Z", GoVersion:"go1.15.8", Compiler:"gc", Platform:"linux/amd64"}
-Server Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.7", GitCommit:"1dd5338295409edcfff11505e7bb246f0d325d15", GitTreeState:"clean", BuildDate:"2021-01-13T13:15:20Z", GoVersion:"go1.15.5", Compiler:"gc", Platform:"linux/amd64"}
-[qzhub@qzhub-dev-01 ~]$ 
-```
-
 ## Quickstart
 
 Setup a new bridge connector in the host machine. This connector establishes a bridge between host and guest Virtual Machines(s)
@@ -104,6 +94,45 @@ Update [machines.yml](scripts/machines.yml) which describes the target node stru
 Run [provisioner.sh](provisioner.sh) scripts to deploy and bootstrap the cluster. [provisioner.sh](provisioner.sh) is a comprehensive self-service script used to build the Vagrant nodes, install Kubespray - https://github.com/kubernetes-sigs/kubespray  Kubernetes and helm charts.
 
 Note: Option (A) shown below will deploy a Full blown Kubernetes Cluster and integrated ingress controller, Cluster monitoring and NFS storage provisioners under 30 minute(s).
+
+
+# Step 1: create dir runner
+
+nkdir runner
+
+# Step 2: git clone
+  
+cd runner
+  
+git clone https://github.com/pr1martyom/k8s_platform_scripts/
+ 
+git checkout develop
+  
+# Step 3: Copy id_rsa.pub
+  
+ssh-keygen
+
+cd /home/qzhub/runner/k8s_platform_scripts/
+
+cat ~/.ssh/id_rsa.pub > id_rsa.pub
+
+# Step 4: Create VMs
+  
+./provisioner.sh -P
+ 
+# Step 5: Install k8s
+
+./provisioner.sh -I
+
+cp /tmp/config ~/.kube/
+
+# Step 6: Check K8s
+
+kubectl get node
+
+# Step 7: Deoloy K8s Bootstrap Charts
+
+./provisioner.sh -D
 
 ```ShellSession
 

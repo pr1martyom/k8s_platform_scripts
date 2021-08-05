@@ -154,4 +154,10 @@ echo "$(<kubectl.sha256) kubectl" | sha256sum --check
 
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
+# Step 12: Create qzhub user
+  
+useradd -s /bin/bash -G sudo -m qzhub
 
+passwd qzhub qzhub
+ 
+su qzhub

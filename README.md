@@ -1,3 +1,4 @@
+```
 # k8s_platform_scripts
 K8s Platform Scripts
 
@@ -119,14 +120,14 @@ docker-compose up -d
 sudo vi /etc/hosts
 
 ````
-kube-master-01 192.168.0.3
-kube-master-02 192.168.0.4
-kube-master-03 192.168.0.5
-kube-node-01 192.168.0.6
-kube-node-02 192.168.0.7
-kube-node-03 192.168.0.8
-kube-node-04 192.168.0.9
-kube-node-05 192.168.0.10
+192.168.0.3 kube-master-01 
+192.168.0.4 kube-master-02 
+192.168.0.5 kube-master-03 
+192.168.0.6 kube-node-01 
+192.168.0.7 kube-node-02
+192.168.0.8 kube-node-03
+192.168.0.9 kube-node-04 
+192.168.0.10 kube-node-05
 ```  
 # Step 9: Clone repository
 
@@ -161,3 +162,4 @@ useradd -s /bin/bash -G sudo -m qzhub
 passwd qzhub qzhub
  
 su qzhub
+```

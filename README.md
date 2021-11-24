@@ -98,7 +98,7 @@ Note: Option (A) shown below will deploy a Full blown Kubernetes Cluster and int
 
 # Step 1: create dir runner
 
-nkdir runner
+mkdir runner
 
 # Step 2: git clone
   
